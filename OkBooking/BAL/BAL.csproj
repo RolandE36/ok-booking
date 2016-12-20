@@ -48,6 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\CertificateCallback.cs" />
+    <Compile Include="Authentication\Service.cs" />
+    <Compile Include="Authentication\TraceListener.cs" />
+    <Compile Include="Authentication\UserData.cs" />
+    <Compile Include="ExchangeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
