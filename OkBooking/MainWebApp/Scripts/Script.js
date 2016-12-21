@@ -1,5 +1,10 @@
 ﻿$(document).ready(function () {
 
+	// Get latest successful login
+	if ($.cookie('email') !== null) {
+		$('#email').val($.cookie('email'))
+	}
+
 	var animating = false,
 		submitPhase1 = 1100,
 		submitPhase2 = 400,
@@ -36,6 +41,7 @@
 				$(".login-error").hide();
 				$(".login-github").show();
 				$(that).addClass("success");
+				$.cookie('email', $('#email').val());
 
 				setTimeout(function () {
 					$app.show();
