@@ -204,13 +204,19 @@ body {
   -webkit-animation: none;
           animation: none;
 }
-.login__signup {
+.login-github {
   font-size: 1.2rem;
   color: #ABA8AE;
 }
-.login__signup a {
+.login-github a {
   color: #fff;
   cursor: pointer;
+}
+
+.login-error {
+  font-size: 1.2rem;
+  color: rgb(206, 153, 166);;
+  display: none;
 }
 
 .app {
