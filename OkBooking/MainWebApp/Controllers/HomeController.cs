@@ -9,11 +9,16 @@ namespace MainWebApp.Controllers {
 	public class HomeController : BaseController {
 		public ActionResult Index() {
 			// https://dcrazed.com/css-html-login-form-templates/ - Login design
-
-
-			// TODO: Exchange = Manager.Login("email", "password");
-			
 			return View();
+		}
+
+		public bool Login(string email, string password) {
+			try {
+				Exchange = Manager.Login(email, password);
+				return true;
+			} catch {
+				return false;
+			}
 		}
 	}
 }

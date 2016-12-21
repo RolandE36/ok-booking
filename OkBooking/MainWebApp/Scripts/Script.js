@@ -22,22 +22,34 @@
 		if (animating) return;
 		animating = true;
 		var that = this;
-		ripple($(that), e);
 		$(that).addClass("processing");
-		setTimeout(function () {
-			$(that).addClass("success");
-			setTimeout(function () {
-				$app.show();
-				$app.css("top");
-				$app.addClass("active");
-			}, submitPhase2 - 70);
-			setTimeout(function () {
-				$login.hide();
-				$login.addClass("inactive");
-				animating = false;
-				$(that).removeClass("success processing");
-			}, submitPhase2);
-		}, submitPhase1);
+
+		$.ajax({
+			type: "POST",
+			url: "/Home/Login",
+			data: {
+				email: $('#email').val(),
+				password: $('#password').val()
+			}
+		}).done(function (result) {
+			if (result == 'True') {
+				$(that).addClass("success");
+				setTimeout(function () {
+					$app.show();
+					$app.css("top");
+					$app.addClass("active");
+				}, submitPhase2 - 70);
+				setTimeout(function () {
+					$login.hide();
+					$login.addClass("inactive");
+					animating = false;
+					$(that).removeClass("success processing");
+				}, submitPhase2);
+			} else {
+				$(that).removeClass("processing");
+			}
+			animating = false;
+		});
 	});
 
 	$(document).on("click", ".app__logout", function (e) {
