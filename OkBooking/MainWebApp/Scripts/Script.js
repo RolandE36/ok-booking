@@ -33,7 +33,10 @@
 			}
 		}).done(function (result) {
 			if (result == 'True') {
+				$(".login-error").hide();
+				$(".login-github").show();
 				$(that).addClass("success");
+
 				setTimeout(function () {
 					$app.show();
 					$app.css("top");
@@ -46,6 +49,8 @@
 					$(that).removeClass("success processing");
 				}, submitPhase2);
 			} else {
+				$(".login-github").hide();
+				$(".login-error").show();
 				$(that).removeClass("processing");
 			}
 			animating = false;
