@@ -75,7 +75,7 @@ body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
 
-.demo {
+.window {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -139,7 +139,7 @@ body {
   -webkit-animation: animatePath 2s 0.5s forwards;
           animation: animatePath 2s 0.5s forwards;
 }
-.login__input {
+.text-input {
   display: inline-block;
   width: 22rem;
   height: 100%;
@@ -148,7 +148,7 @@ body {
   background: transparent;
   color: #FDFCFD;
 }
-.login__submit {
+.button-submit {
   position: relative;
   width: 100%;
   height: 4rem;
@@ -162,7 +162,7 @@ body {
   -webkit-transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
   transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
 }
-.login__submit:after {
+.button-submit:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -179,16 +179,16 @@ body {
   transition: opacity 0.1s 0.4s;
   opacity: 0;
 }
-.login__submit.processing {
+.button-submit.processing {
   width: 4rem;
   font-size: 0;
 }
-.login__submit.processing:after {
+.button-submit.processing:after {
   opacity: 1;
   -webkit-animation: rotate 0.5s 0.4s infinite linear;
           animation: rotate 0.5s 0.4s infinite linear;
 }
-.login__submit.success {
+.button-submit.success {
   -webkit-transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
   transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
   transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s;
@@ -197,7 +197,7 @@ body {
           transform: scale(30);
   opacity: 0.9;
 }
-.login__submit.success:after {
+.button-submit.success:after {
   -webkit-transition: opacity 0.1s 0s;
   transition: opacity 0.1s 0s;
   opacity: 0;
@@ -389,11 +389,21 @@ body {
   color: #919197;
   text-transform: uppercase;
 }
-.app__day.date {
+.app__day.date,
+.app-title {
   font-size: 1.2rem;
   font-weight: bold;
   color: #3C3C43;
 }
+
+.app-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3C3C43;
+  padding: 10px;
+  text-align: center;
+}
+
 .app__meeting {
   position: relative;
   height: 6rem;
@@ -426,6 +436,38 @@ body {
 .app__meeting:nth-child(5) {
   -webkit-transition-delay: 0.6s;
           transition-delay: 0.6s;
+}
+.app__meeting:nth-child(6) {
+  -webkit-transition-delay: 0.7s;
+          transition-delay: 0.7s;
+}
+.app__meeting:nth-child(7) {
+  -webkit-transition-delay: 0.8s;
+          transition-delay: 0.8s;
+}
+.app__meeting:nth-child(8) {
+  -webkit-transition-delay: 0.9s;
+          transition-delay: 0.9s;
+}
+.app__meeting:nth-child(9) {
+  -webkit-transition-delay: 1.0s;
+          transition-delay: 1.0s;
+}
+.app__meeting:nth-child(10) {
+  -webkit-transition-delay: 1.1s;
+          transition-delay: 1.1s;
+}
+.app__meeting:nth-child(11) {
+  -webkit-transition-delay: 1.2s;
+          transition-delay: 1.2s;
+}
+.app__meeting:nth-child(12) {
+  -webkit-transition-delay: 1.3s;
+          transition-delay: 1.3s;
+}
+.app__meeting:nth-child(13) {
+  -webkit-transition-delay: 1.4s;
+          transition-delay: 1.4s;
 }
 .app__meeting-photo {
   position: absolute;
@@ -541,4 +583,19 @@ body {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+.rooms-list {
+	overflow-y: auto;
+	height: inherit;
+	background: #fff;
+}
+
+.app__top {
+	height: 20%;
+}
+
+.rooms-list {
+	height: 80%;
+	background: rgba(255, 255, 255, 0.75);
 }

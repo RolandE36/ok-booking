@@ -53,6 +53,7 @@
     <Compile Include="Authentication\TraceListener.cs" />
     <Compile Include="Authentication\UserData.cs" />
     <Compile Include="ExchangeManager.cs" />
+    <Compile Include="Model\Room.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

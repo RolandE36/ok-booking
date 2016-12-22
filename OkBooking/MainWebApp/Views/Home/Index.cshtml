@@ -3,8 +3,8 @@
 }
 
 <div class="cont">
-	<div class="demo">
-		<div class="login">
+	<div class="window">
+		<div class="view login active">
 			<div class="login-logo">
 				<img src="/Content/img/outlook-icon.png"/>
 			</div>
@@ -13,20 +13,20 @@
 					<svg class="login__icon name svg-icon" viewBox="0 0 20 20">
 						<path d="M0,20 a10,8 0 0,1 20,0z M10,0 a4,4 0 0,1 0,8 a4,4 0 0,1 0,-8" />
 					</svg>
-					<input type="text" id="email" class="login__input name" placeholder="Email" />
+					<input type="email" id="email" class="text-input name" placeholder="Email" />
 				</div>
 				<div class="login__row">
 					<svg class="login__icon pass svg-icon" viewBox="0 0 20 20">
 						<path d="M0,20 20,20 20,8 0,8z M10,13 10,16z M4,8 a6,8 0 0,1 12,0" />
 					</svg>
-					<input type="password" id="password" class="login__input pass" placeholder="Password" />
+					<input type="password" id="password" class="text-input pass" placeholder="Password" />
 				</div>
-				<button type="button" class="login__submit">Sign in</button>
+				<button type="button" class="button-submit">Sign in</button>
 				<p class="login-error">Invalid credentials!</p>
 				<p class="login-github">View source code on &nbsp;<a target="_blank" href="https://github.com/RolandE36/ok-booking">GitHub</a></p>
 			</div>
 		</div>
-		<div class="app">
+		<div class="view app">
 			<div class="app__top">
 				<div class="app__menu-btn">
 					<span></span>
@@ -35,18 +35,13 @@
 					<!-- yeap, its purely hardcoded numbers straight from the head :D (same for svg above) -->
 					<path d="M20,20 15.36,15.36 a9,9 0 0,1 -12.72,-12.72 a 9,9 0 0,1 12.72,12.72" />
 				</svg>
-				<p class="app__hello">Good Morning!</p>
-				<div class="app__user">
-					<img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-512_5.jpg" alt="" class="app__user-photo" />
-					<span class="app__user-notif">3</span>
-				</div>
-				<div class="app__month">
-					<span class="app__month-btn left"></span>
-					<p class="app__month-name">March</p>
-					<span class="app__month-btn right"></span>
-				</div>
+				<p class="app__hello">Choose your location:</p>
 			</div>
-			<div class="app__bot">
+			
+			<div class="rooms-list">
+			</div>
+			
+			<div class="app__bot" style="display: none;">
 				<div class="app__days">
 					<div class="app__day weekday">Sun</div>
 					<div class="app__day weekday">Mon</div>
@@ -63,9 +58,10 @@
 					<div class="app__day date">13</div>
 					<div class="app__day date">14</div>
 				</div>
+
 				<div class="app__meetings">
 					<div class="app__meeting">
-						<img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-80_5.jpg" alt="" class="app__meeting-photo" />
+						<img src="http://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-80_5.jpg" alt="" class="app__meeting-photo"/>
 						<p class="app__meeting-name">Feed the cat</p>
 						<p class="app__meeting-info">
 							<span class="app__meeting-time">8 - 10am</span>
@@ -73,7 +69,7 @@
 						</p>
 					</div>
 					<div class="app__meeting">
-						<img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-512_5.jpg" alt="" class="app__meeting-photo" />
+						<img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-512_5.jpg" alt="" class="app__meeting-photo"/>
 						<p class="app__meeting-name">Feed the cat!</p>
 						<p class="app__meeting-info">
 							<span class="app__meeting-time">1 - 3pm</span>
@@ -81,7 +77,7 @@
 						</p>
 					</div>
 					<div class="app__meeting">
-						<img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-512_5.jpg" alt="" class="app__meeting-photo" />
+						<img src="//s3-us-west-2.amazonaws.com/s.cdpn.io/142996/profile/profile-512_5.jpg" alt="" class="app__meeting-photo"/>
 						<p class="app__meeting-name">FEED THIS CAT ALREADY!!!</p>
 						<p class="app__meeting-info">
 							<span class="app__meeting-time">This button is just for demo ></span>
@@ -91,7 +87,7 @@
 			</div>
 			<div class="app__logout">
 				<svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
-					<path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12" />
+					<path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
 				</svg>
 			</div>
 		</div>

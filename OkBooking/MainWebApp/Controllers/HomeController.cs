@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BAL;
 
 namespace MainWebApp.Controllers {
 	public class HomeController : BaseController {
@@ -19,6 +20,14 @@ namespace MainWebApp.Controllers {
 			} catch {
 				return false;
 			}
+		}
+
+		public bool IsAuthorized() {
+			return Exchange != null;
+		}
+
+		public PartialViewResult GetRooms() {
+			return PartialView("_GetRooms", Manager.GetRoomLists());
 		}
 	}
 }
