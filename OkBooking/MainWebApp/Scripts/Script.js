@@ -59,7 +59,7 @@
 			ShowRooms();
 
 			// TODO: find full screen button and move to change view
-			setTimeout(function () { ChangeView('.app'); }, 400);
+			//setTimeout(function () { ChangeView('.app'); }, 400);
 			
 			/*setTimeout(function () {
 				$app.show();
@@ -94,12 +94,22 @@
 		animating = false;
 	}
 
+	function RemoveViews() {
+		$('.view').removeClass('login');
+		$('.view').removeClass('cities');
+	}
+
 	function ShowRooms() {
 		$.ajax({
 			type: "POST",
 			url: "/Home/GetRooms"
 		}).done(function (result) {
-			$('.rooms-list').html(result);
+			RemoveViews();
+			$('.view').html(result);
+			$('.view').delay(10000).addClass('cities');
+			/*setTimeout(function() {
+				$('.view').addClass('cities');
+			}, 3000);*/
 		});
 	}
 

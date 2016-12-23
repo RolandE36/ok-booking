@@ -109,7 +109,7 @@ body {
     padding: 50px;
 	opacity: 0.8;
 }
-.login__form {
+.login-form {
   position: absolute;
   top: 50%;
   left: 0;
@@ -118,22 +118,22 @@ body {
   padding: 1.5rem 2.5rem;
   text-align: center;
 }
-.login__row {
+.login-row {
   height: 5rem;
   padding-top: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-.login__icon {
+.login-icon {
   margin-bottom: -0.4rem;
   margin-right: 0.5rem;
 }
-.login__icon.name path {
+.login-icon.name path {
   stroke-dasharray: 73.50196075439453;
   stroke-dashoffset: 73.50196075439453;
   -webkit-animation: animatePath 2s 0.5s forwards;
           animation: animatePath 2s 0.5s forwards;
 }
-.login__icon.pass path {
+.login-icon.pass path {
   stroke-dasharray: 92.10662841796875;
   stroke-dashoffset: 92.10662841796875;
   -webkit-animation: animatePath 2s 0.5s forwards;
@@ -243,16 +243,12 @@ body {
   -webkit-transform: scale(1);
           transform: scale(1);
 }
-.app.active .app__meeting {
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
-  opacity: 1;
-}
+
 .app.active .app__logout {
   -webkit-transform: scale(1);
           transform: scale(1);
 }
-.app__top {
+.app-top {
   position: relative;
   height: 28rem;
   background: rgba(0, 0, 0, 0.5);
@@ -469,6 +465,13 @@ body {
   -webkit-transition-delay: 1.4s;
           transition-delay: 1.4s;
 }
+
+.cities .app__meeting {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+
 .app__meeting-photo {
   position: absolute;
   left: 2rem;
@@ -591,7 +594,7 @@ body {
 	background: #fff;
 }
 
-.app__top {
+.app-top {
 	height: 20%;
 }
 
