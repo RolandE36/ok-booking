@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BAL.Model
 {
-	public class Room
-	{
+	public class Room {
 		public string Name { get; set; }
 		public string Email { get; set; }
+		public string Time { get; set; }
 	}
 }

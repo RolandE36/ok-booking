@@ -1,14 +1,15 @@
 ﻿@model List<BAL.Model.Room>
-@Html.Partial("_Header", "Choose your room:")
-<div class="rooms-list">
-	@foreach (var item in Model)
-	{
-		<div class="app__meeting" data-email="@item.Email">
-			<img src="/Content/img/outlook-icon.png" alt="" class="app__meeting-photo" />
-			<p class="app__meeting-name">@item.Name</p>
-			<p class="app__meeting-info">
-				<span class="app__meeting-time"><!-- --></span>
-			</p>
-		</div>
-	}
+<div class="view rooms">
+	@Html.Partial("_Header", "Choose your room:")
+	<div class="items-list">
+		@foreach (var item in Model) {
+			<div class="list-item" data-email="@item.Email">
+				<img src="/Content/img/outlook-icon.png" alt="" class="list-item-photo" />
+				<p class="list-item-name">@item.Name</p>
+				<p class="list-item-info">
+					<span class="list-item-time">@item.Time</span>
+				</p>
+			</div>
+		}
+	</div>
 </div>

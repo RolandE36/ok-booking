@@ -10,6 +10,11 @@ namespace MainWebApp.Controllers {
 	public class HomeController : BaseController {
 		public ActionResult Index() {
 			// https://dcrazed.com/css-html-login-form-templates/ - Login design
+
+			/*ViewBag.IsAuthorized = IsAuthorized();
+			if (ViewBag.IsAuthorized) {
+				ViewBag.Offices = Manager.GetOffices();
+			}*/
 			return View();
 		}
 
@@ -17,7 +22,7 @@ namespace MainWebApp.Controllers {
 			try {
 				Exchange = Manager.Login(email, password);
 				return true;
-			} catch {
+			} catch (Exception e) {
 				return false;
 			}
 		}

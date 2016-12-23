@@ -3,6 +3,7 @@ using BAL.Model;
 using Microsoft.Exchange.WebServices.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,12 +38,58 @@ namespace BAL {
 			var emailAddress = new EmailAddress(email);
 			var roomsList = service.GetRooms(emailAddress);
 			List<Room> rooms = new List<Room>();
+			var schedule = GetRoomsSchedule(roomsList);
 
-			foreach (EmailAddress r in roomsList)
+			for (int i = 0; i < roomsList.Count; i++)
 			{
-				rooms.Add(new Room() { Name = r.Name, Email = r.Address });
+				var room = roomsList[i];
+				var item = schedule.AttendeesAvailability[i];
+				var message = "";
+
+				if (item != null && item.CalendarEvents.Count > 0)
+				{
+					foreach (var cevent in item.CalendarEvents)
+					{
+						if (cevent.StartTime < DateTime.Now && cevent.EndTime < DateTime.Now) continue;
+						if (cevent.StartTime <= DateTime.Now && cevent.EndTime >= DateTime.Now)
+						{
+							message += "... - " + cevent.EndTime.ToString("HH: mm") + "; ";
+						}
+
+						if (cevent.StartTime > DateTime.Now && cevent.EndTime >= DateTime.Now)
+						{
+							message = string.Format("{0} - {1}", cevent.StartTime.ToString("HH: mm"), cevent.EndTime.ToString("HH: mm"));
+							break;
+						}
+
+						if (cevent.StartTime.Day != DateTime.Now.Day) break;
+					}
+				}
+
+				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message });
 			}
 			return rooms;
+		}
+
+		private GetUserAvailabilityResults GetRoomsSchedule(Collection<EmailAddress> rooms) {
+			List<AttendeeInfo> attendees = new List<AttendeeInfo>();
+			AvailabilityOptions meetingOptions = new AvailabilityOptions();
+			meetingOptions.MeetingDuration = 30;
+			meetingOptions.MaximumNonWorkHoursSuggestionsPerDay = 0;
+			meetingOptions.CurrentMeetingTime = DateTime.UtcNow;
+
+			foreach (EmailAddress room in rooms) {
+				attendees.Add(new AttendeeInfo() {
+					SmtpAddress = room.Address,
+					AttendeeType = MeetingAttendeeType.Room
+				});
+			}
+
+			return service.GetUserAvailability(
+										attendees,
+										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)),
+											AvailabilityData.FreeBusyAndSuggestions,
+										meetingOptions);
 		}
 	}
 }
