@@ -1,10 +1,10 @@
-﻿@model List<BAL.Model.Room>
+﻿@model List<BAL.Model.Office>
 
 @Html.Partial("_Header", "Choose your location:")
 
 <div class="rooms-list">
 	@foreach (var item in Model) {
-		<div class="app__meeting" data-email="@item.Email">
+		<div class="app__meeting" onclick="ShowRooms('@item.Email')">
 			<img src="/Content/img/outlook-icon.png" alt="" class="app__meeting-photo" />
 			<p class="app__meeting-name">@item.Name</p>
 			<p class="app__meeting-info">

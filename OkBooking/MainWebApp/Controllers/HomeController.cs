@@ -26,8 +26,13 @@ namespace MainWebApp.Controllers {
 			return Exchange != null;
 		}
 
-		public PartialViewResult GetRooms() {
-			return PartialView("_GetRooms", Manager.GetRoomLists());
+		public PartialViewResult GetOffices() {
+			return PartialView("_Offices", Manager.GetOffices());
+		}
+
+		public PartialViewResult GetRooms(string email)
+		{
+			return PartialView("_Rooms", Manager.GetRooms(email));
 		}
 	}
 }

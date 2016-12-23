@@ -56,7 +56,7 @@
 			$(".button-submit").addClass("success");
 			$.cookie('email', $('#email').val());
 			$('#password').val('');
-			ShowRooms();
+			ShowOffices();
 
 			// TODO: find full screen button and move to change view
 			//setTimeout(function () { ChangeView('.app'); }, 400);
@@ -99,17 +99,15 @@
 		$('.view').removeClass('cities');
 	}
 
-	function ShowRooms() {
+	function ShowOffices() {
 		$.ajax({
 			type: "POST",
-			url: "/Home/GetRooms"
+			url: "/Home/GetOffices"
 		}).done(function (result) {
 			RemoveViews();
 			$('.view').html(result);
 			$('.view').delay(10000).addClass('cities');
-			/*setTimeout(function() {
-				$('.view').addClass('cities');
-			}, 3000);*/
+			/*setTimeout(function() { $('.view').addClass('cities'); }, 3000);*/
 		});
 	}
 
@@ -133,3 +131,18 @@
 	});
 
 });
+
+function ShowRooms(email) {
+	$.ajax({
+		type: "POST",
+		url: "/Home/GetRooms",
+		data: {
+			email: email
+		}
+	}).done(function (result) {
+		//RemoveViews();
+		$('.view').html(result);
+		$('.view').delay(10000).addClass('cities');
+		/*setTimeout(function() { $('.view').addClass('cities'); }, 3000);*/
+	});
+}

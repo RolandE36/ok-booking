@@ -20,16 +20,28 @@ namespace BAL {
 			return service;
 		}
 
-		public List<Room> GetRoomLists() {
+		public List<Office> GetOffices() {
 			EmailAddressCollection roomLists = service.GetRoomLists();
-			List<Room> rooms = new List<Room>();
-
+			List<Office> offices = new List<Office>();
+			
 			foreach (EmailAddress address in roomLists) {
 				//"Chernivtsi Office Meeting Rooms List"
 				var name = address.Name.Replace("Meeting Rooms List", "").Trim();
-				rooms.Add(new Room() { Email = address.Address, Name = name });
+				offices.Add(new Office() { Email = address.Address, Name = name });
 			}
 
+			return offices;
+		}
+
+		public List<Room> GetRooms(string email) {
+			var emailAddress = new EmailAddress(email);
+			var roomsList = service.GetRooms(emailAddress);
+			List<Room> rooms = new List<Room>();
+
+			foreach (EmailAddress r in roomsList)
+			{
+				rooms.Add(new Room() { Name = r.Name, Email = r.Address });
+			}
 			return rooms;
 		}
 	}
