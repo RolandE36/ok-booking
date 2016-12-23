@@ -45,19 +45,21 @@ namespace BAL {
 				var room = roomsList[i];
 				var item = schedule.AttendeesAvailability[i];
 				var message = "";
+				var bookNow = true;
 
-				if (item != null && item.CalendarEvents.Count > 0)
-				{
-					foreach (var cevent in item.CalendarEvents)
-					{
+				if (item != null && item.CalendarEvents.Count > 0) {
+					foreach (var cevent in item.CalendarEvents) {
 						if (cevent.StartTime < DateTime.Now && cevent.EndTime < DateTime.Now) continue;
-						if (cevent.StartTime <= DateTime.Now && cevent.EndTime >= DateTime.Now)
-						{
+						if (cevent.StartTime <= DateTime.Now && cevent.EndTime >= DateTime.Now) {
 							message += "... - " + cevent.EndTime.ToString("HH: mm") + "; ";
+							bookNow = false;
 						}
 
-						if (cevent.StartTime > DateTime.Now && cevent.EndTime >= DateTime.Now)
-						{
+						if (cevent.StartTime > DateTime.Now && cevent.EndTime >= DateTime.Now) {
+							var span = new TimeSpan(cevent.StartTime.Ticks - DateTime.Now.Ticks);
+							if (bookNow && span.Minutes <= 15) {
+								bookNow = false;
+							}
 							message = string.Format("{0} - {1}", cevent.StartTime.ToString("HH: mm"), cevent.EndTime.ToString("HH: mm"));
 							break;
 						}
@@ -66,7 +68,7 @@ namespace BAL {
 					}
 				}
 
-				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message });
+				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message, BookNow = bookNow});
 			}
 			return rooms;
 		}

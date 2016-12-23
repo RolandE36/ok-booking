@@ -4,12 +4,16 @@
 	<div class="items-list">
 		@foreach (var item in Model) {
 			<div class="list-item" data-email="@item.Email">
-				<img src="/Content/img/outlook-icon.png" alt="" class="list-item-photo" />
+				<img src="/Content/img/outlook-icon.png" alt="" class="list-item-photo"/>
 				<p class="list-item-name">@item.Name</p>
 				<p class="list-item-info">
 					<span class="list-item-time">@item.Time</span>
 				</p>
+				@if (item.BookNow) {
+					// TODO: 
+				}
 			</div>
+			
 		}
 	</div>
 </div>
