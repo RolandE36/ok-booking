@@ -34,11 +34,20 @@ namespace BAL {
 			return offices;
 		}
 
+		/// <summary>
+		/// Get roms list for specified office
+		/// </summary>
+		/// <param name="email">Office email</param>
+		/// <returns></returns>
 		public List<Room> GetRooms(string email) {
 			var emailAddress = new EmailAddress(email);
 			var roomsList = service.GetRooms(emailAddress);
 			List<Room> rooms = new List<Room>();
+			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
+
+			// convert server time to user time zone
+			DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, service.TimeZone);
 
 			for (int i = 0; i < roomsList.Count; i++)
 			{
@@ -47,24 +56,31 @@ namespace BAL {
 				var message = "";
 				var bookNow = true;
 
+				// go through each meeting in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var cevent in item.CalendarEvents) {
-						if (cevent.StartTime < DateTime.Now && cevent.EndTime < DateTime.Now) continue;
-						if (cevent.StartTime <= DateTime.Now && cevent.EndTime >= DateTime.Now) {
+						// skip finished meeting
+						if (cevent.StartTime < userTimeNow && cevent.EndTime < userTimeNow) continue;
+
+						// meeting in progress
+						if (cevent.StartTime <= userTimeNow && cevent.EndTime >= userTimeNow) {
 							message += "... - " + cevent.EndTime.ToString("HH: mm") + "; ";
 							bookNow = false;
 						}
 
-						if (cevent.StartTime > DateTime.Now && cevent.EndTime >= DateTime.Now) {
-							var span = new TimeSpan(cevent.StartTime.Ticks - DateTime.Now.Ticks);
-							if (bookNow && span.Minutes <= 15) {
-								bookNow = false;
-							}
+						// future meeting
+						if (cevent.StartTime > userTimeNow && cevent.EndTime >= userTimeNow) {
+
+							// we can't book room if we have only 15 minutes till the next meeting
+							var span = new TimeSpan(cevent.StartTime.Ticks - userTimeNow.Ticks);
+							if (bookNow && span.Minutes <= 15) { bookNow = false; }
+
 							message = string.Format("{0} - {1}", cevent.StartTime.ToString("HH: mm"), cevent.EndTime.ToString("HH: mm"));
 							break;
 						}
 
-						if (cevent.StartTime.Day != DateTime.Now.Day) break;
+						// skip next days
+						if (cevent.StartTime.Day != userTimeNow.Day) break;
 					}
 				}
 
