@@ -46,6 +46,7 @@ namespace BAL {
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
 
+			// TODO: We can't use service.TimeZone because it's server timezone. Not user timezone. We should get provide ability to set timezone on user settings.
 			// convert server time to user time zone
 			DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, service.TimeZone);
 
@@ -60,17 +61,13 @@ namespace BAL {
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var meeting in item.CalendarEvents) {
 
+						// TODO: We can't use service.TimeZone because it's server timezone. Not user timezone. We should get provide ability to set timezone on user settings.
 						// set time zone
 						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, service.TimeZone);
 						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, service.TimeZone);
 
 						// skip finished meeting
 						if (meeting.StartTime < userTimeNow && meeting.EndTime < userTimeNow) continue;
-
-						message = "" + meeting.StartTime.Hour + ":" + meeting.StartTime.Minute + " H" +
-						          service.TimeZone.BaseUtcOffset.Hours + " ST:" + service.TimeZone + " H" + TimeZoneInfo.Local.BaseUtcOffset.Hours + " CT:" +
-						          TimeZoneInfo.Local;
-						break;
 
 						// meeting in progress
 						if (meeting.StartTime <= userTimeNow && meeting.EndTime >= userTimeNow) {
