@@ -40,15 +40,15 @@ namespace BAL {
 		/// <param name="email">Office email</param>
 		/// <returns></returns>
 		public List<Room> GetRooms(string email) {
+
 			var emailAddress = new EmailAddress(email);
 			var roomsList = service.GetRooms(emailAddress);
 			List<Room> rooms = new List<Room>();
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
 
-			// TODO: We can't use service.TimeZone because it's server timezone. Not user timezone. We should get provide ability to set timezone on user settings.
-			// convert server time to user time zone
-			DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, service.TimeZone);
+			string userZoneId = "FLE Standard Time"; // +2 Kyiv
+			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
 
 			for (int i = 0; i < roomsList.Count; i++)
 			{
@@ -60,26 +60,24 @@ namespace BAL {
 				// go through each meeting in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var meeting in item.CalendarEvents) {
-
-						// TODO: We can't use service.TimeZone because it's server timezone. Not user timezone. We should get provide ability to set timezone on user settings.
 						// set time zone
-						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, service.TimeZone);
-						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, service.TimeZone);
+						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, userZone);
+						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, userZone);
 
 						// skip finished meeting
-						if (meeting.StartTime < userTimeNow && meeting.EndTime < userTimeNow) continue;
+						if (meeting.StartTime < DateTime.Now && meeting.EndTime < DateTime.Now) continue;
 
 						// meeting in progress
-						if (meeting.StartTime <= userTimeNow && meeting.EndTime >= userTimeNow) {
+						if (meeting.StartTime <= DateTime.Now && meeting.EndTime >= DateTime.Now) {
 							message += "... - " + meetingEndTime.ToString("HH:mm") + "; ";
 							bookNow = false;
 						}
 
 						// future meeting
-						if (meeting.StartTime > userTimeNow && meeting.EndTime >= userTimeNow) {
+						if (meeting.StartTime > DateTime.Now && meeting.EndTime >= DateTime.Now) {
 
 							// we can't book room if we have only 15 minutes till the next meeting
-							var span = new TimeSpan(meeting.StartTime.Ticks - userTimeNow.Ticks);
+							var span = new TimeSpan(meeting.StartTime.Ticks - DateTime.Now.Ticks);
 							if (bookNow && span.Minutes <= 15) { bookNow = false; }
 
 							message = string.Format("{0} - {1}", meetingStartTime.ToString("HH:mm"), meetingEndTime.ToString("HH:mm"));
@@ -87,7 +85,7 @@ namespace BAL {
 						}
 
 						// skip next days
-						if (meeting.StartTime.Day != userTimeNow.Day) break;
+						if (meeting.StartTime.Day != DateTime.Now.Day) break;
 					}
 				}
 
