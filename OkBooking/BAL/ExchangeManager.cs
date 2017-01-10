@@ -61,11 +61,16 @@ namespace BAL {
 					foreach (var meeting in item.CalendarEvents) {
 
 						// set time zone
-						DateTime meetingStartTime = meeting.StartTime.AddMilliseconds(service.TimeZone.BaseUtcOffset.Ticks);
-						DateTime meetingEndTime = meeting.EndTime.AddMilliseconds(service.TimeZone.BaseUtcOffset.Ticks);
+						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, service.TimeZone);
+						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, service.TimeZone);
 
 						// skip finished meeting
 						if (meeting.StartTime < userTimeNow && meeting.EndTime < userTimeNow) continue;
+
+						message = "" + meeting.StartTime.Hour + ":" + meeting.StartTime.Minute + " H" +
+						          service.TimeZone.BaseUtcOffset.Hours + " ST:" + service.TimeZone + " H" + TimeZoneInfo.Local.BaseUtcOffset.Hours + " CT:" +
+						          TimeZoneInfo.Local;
+						break;
 
 						// meeting in progress
 						if (meeting.StartTime <= userTimeNow && meeting.EndTime >= userTimeNow) {
