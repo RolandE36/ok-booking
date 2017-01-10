@@ -61,8 +61,8 @@ namespace BAL {
 					foreach (var meeting in item.CalendarEvents) {
 
 						// set time zone
-						DateTime meetingStartTime = meeting.StartTime;//TimeZoneInfo.ConvertTime(meeting.StartTime, service.TimeZone);
-						DateTime meetingEndTime = meeting.EndTime;//TimeZoneInfo.ConvertTime(meeting.EndTime, service.TimeZone);
+						DateTime meetingStartTime = TimeZoneInfo.ConvertTimeFromUtc(meeting.StartTime, service.TimeZone);
+						DateTime meetingEndTime = TimeZoneInfo.ConvertTimeFromUtc(meeting.EndTime, service.TimeZone);
 
 						// skip finished meeting
 						if (meeting.StartTime < userTimeNow && meeting.EndTime < userTimeNow) continue;
