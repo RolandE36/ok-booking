@@ -61,15 +61,15 @@ namespace BAL {
 					foreach (var meeting in item.CalendarEvents) {
 
 						// set time zone
-						DateTime meetingStartTime = TimeZoneInfo.ConvertTimeFromUtc(meeting.StartTime, service.TimeZone);
-						DateTime meetingEndTime = TimeZoneInfo.ConvertTimeFromUtc(meeting.EndTime, service.TimeZone);
+						var meetingStartTime = string.Format("{0}:{1}", meeting.StartTime.Hour, meeting.StartTime.Minute);
+						var meetingEndTime = string.Format("{0}:{1}", meeting.EndTime.Hour, meeting.EndTime.Minute);
 
 						// skip finished meeting
 						if (meeting.StartTime < userTimeNow && meeting.EndTime < userTimeNow) continue;
 
 						// meeting in progress
 						if (meeting.StartTime <= userTimeNow && meeting.EndTime >= userTimeNow) {
-							message += "... - " + meetingEndTime.ToString("HH:mm") + "; ";
+							message += "... - " + meetingEndTime + "; ";
 							bookNow = false;
 						}
 
@@ -80,7 +80,7 @@ namespace BAL {
 							var span = new TimeSpan(meeting.StartTime.Ticks - userTimeNow.Ticks);
 							if (bookNow && span.Minutes <= 15) { bookNow = false; }
 
-							message = string.Format("{0} - {1}", meetingStartTime.ToString("HH:mm"), meetingEndTime.ToString("HH:mm"));
+							message = string.Format("{0} - {1}", meetingStartTime, meetingEndTime);
 							break;
 						}
 
