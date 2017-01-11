@@ -20,8 +20,9 @@ function BindEvents() {
 
 // Get latest successful login (remember me functionality)
 function ShowLatestSuccessfulLogin() {
-	if ($.cookie('email') !== null) {
+	if ($.cookie('email') !== null && $.cookie('cbRememberMe') == "true") {
 		$('#email').val($.cookie('email'));
+		$("#cbRememberMe").prop("checked", true);
 	}
 }
 
@@ -88,6 +89,7 @@ function AuthorizationCompleted(isSuccessfully) {
 		$(".login-github").delay(100).show(100);
 		$(".button-submit").addClass("success");
 		$.cookie('email', $('#email').val());
+		$.cookie('cbRememberMe', $('#cbRememberMe').is(':checked'));
 		$('#password').val('');
 		ShowOffices();
 	} else {
