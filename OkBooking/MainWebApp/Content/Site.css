@@ -219,6 +219,7 @@ body {
   display: none;
 }
 
+/*
 .app {
   position: absolute;
   top: 0;
@@ -234,6 +235,8 @@ body {
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
 }
+
+
 .app.active {
   opacity: 1;
   -webkit-transform: scale(1);
@@ -248,6 +251,7 @@ body {
   -webkit-transform: scale(1);
           transform: scale(1);
 }
+*/
 .app-top {
   position: relative;
   height: 28rem;
@@ -255,11 +259,13 @@ body {
   padding: 6rem 1.5rem 2rem;
   text-align: center;
 }
+/*
 .app__bot {
   position: relative;
   height: 25rem;
   background: #fff;
 }
+*/
 .app__menu-btn {
   position: absolute;
   top: 2rem;
@@ -303,6 +309,7 @@ body {
   font-weight: normal;
   margin-bottom: 3rem;
 }
+/*
 .app__user {
   position: relative;
   display: inline-block;
@@ -334,6 +341,7 @@ body {
   color: #fff;
   font-size: 1.5rem;
 }
+
 .app__month:after {
   content: "";
   display: table;
@@ -399,7 +407,7 @@ body {
   padding: 10px;
   text-align: center;
 }
-
+*/
 .list-item {
   position: relative;
   height: 6rem;
@@ -487,6 +495,7 @@ body {
   color: #949498;
   font-size: 1.1rem;
 }
+/*
 .app__logout {
   position: absolute;
   bottom: 3.3rem;
@@ -570,7 +579,7 @@ body {
     -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
   }
-}
+}*/
 @keyframes rotate {
   to {
     -webkit-transform: rotate(360deg);
@@ -587,7 +596,7 @@ body {
     stroke-dashoffset: 0;
   }
 }
-
+	
 .items-list {
 	overflow-y: auto;
 	height: inherit;

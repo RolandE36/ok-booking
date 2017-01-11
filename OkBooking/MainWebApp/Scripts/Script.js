@@ -1,12 +1,32 @@
-﻿$(document).ready(function () {
+﻿var animating = false; // This property may be removed after spinner implementation
 
-	// Get latest successful login
+$(document).ready(function () {
+	BindEvents();
+	ShowLatestSuccessfulLogin();
+	CheckIsUserAlreadyAuthorized();
+});
+
+// Bind default functions for all inputs, buttons, fields, etc...
+function BindEvents() {
+	// After login button click we should try to authorize user
+	$(document).on("click", ".button-submit", function () { Authorization(); });
+
+	// After ENTER button click (on password field) we should try to to authorize user
+	$(document).on("keypress", "#password", function (e) {
+		if (e.which == 13) { Authorization(); return false; } // if we press ENTER button (13) than try to authorize user and prevent default action (return false;)
+		return true; // user default action in case of other button pressed (return true;)
+	});
+}
+
+// Get latest successful login (remember me functionality)
+function ShowLatestSuccessfulLogin() {
 	if ($.cookie('email') !== null) {
 		$('#email').val($.cookie('email'));
 	}
+}
 
-	// Check is user Authorized
-	// TODO: do this on C# side.
+// Check is user Authorized
+function CheckIsUserAlreadyAuthorized() {
 	$.ajax({
 		type: "POST",
 		url: "/Home/IsAuthorized"
@@ -15,77 +35,9 @@
 			AuthorizationCompleted(true);
 		}
 	});
+}
 
-	var animating = false,
-		submitPhase2 = 400,
-		logoutPhase1 = 800,
-		$login = $(".login"),
-		$app = $(".app");
-
-	// Login actions
-	$(document).on("click", ".button-submit", function() { Authorization(); });
-	$(document).on("keypress", "#password", function (e) {
-		if (e.which == 13) {
-			Authorization();
-			return false;
-		}
-	});
-
-	function Authorization() {
-		if (animating) return;
-		animating = true;
-		$(".button-submit").addClass("processing");
-
-		$.ajax({
-			type: "POST",
-			url: "/Home/Login",
-			data: {
-				email: $('#email').val(),
-				password: $('#password').val()
-			}
-		}).done(function (result) {
-			AuthorizationCompleted(result == 'True');
-		});
-	}
-
-	function AuthorizationCompleted(isSuccessfully) {
-		if (isSuccessfully) {
-			$(".login-error").hide(100);
-			$(".login-github").delay(100).show(100);
-			$(".button-submit").addClass("success");
-			$.cookie('email', $('#email').val());
-			$('#password').val('');
-			ShowOffices();
-		} else {
-			$(".login-github").hide(100);
-			$(".login-error").delay(100).show(100);
-			$(".button-submit").removeClass("processing");
-		}
-		animating = false;
-	}
-	
-	/*
-	$(document).on("click", ".app__logout", function (e) {
-		if (animating) return;
-		$(".ripple").remove();
-		animating = true;
-		var that = this;
-		$(that).addClass("clicked");
-		setTimeout(function () {
-			$app.removeClass("active");
-			$login.show();
-			$login.css("top");
-			$login.removeClass("inactive");
-		}, logoutPhase1 - 120);
-		setTimeout(function () {
-			$app.hide();
-			animating = false;
-			$(that).removeClass("clicked");
-		}, logoutPhase1);
-	});
-	*/
-});
-
+// Show list of available offices
 function ShowOffices() {
 	$.ajax({
 		type: "POST",
@@ -96,6 +48,7 @@ function ShowOffices() {
 	});
 }
 
+// Show list of available rooms
 function ShowRooms(email) {
 	$.ajax({
 		type: "POST",
@@ -107,4 +60,41 @@ function ShowRooms(email) {
 		$('.window').html(result);
 		setTimeout(function () { $('.view').addClass('active'); }, 100);
 	});
+}
+
+// Email and password validation
+function Authorization() {
+	if (animating) return;
+	animating = true;
+	$(".button-submit").addClass("processing");
+
+	$.ajax({
+		type: "POST",
+		url: "/Home/Login",
+		data: {
+			email: $('#email').val(),
+			password: $('#password').val()
+		}
+	}).done(function (result) {
+		AuthorizationCompleted(result == 'True');
+	});
+}
+
+// Default actions after authorization check
+function AuthorizationCompleted(isSuccessfully) {
+	if (isSuccessfully) {
+		// actions if user authorized successfully:
+		$(".login-error").hide(100);
+		$(".login-github").delay(100).show(100);
+		$(".button-submit").addClass("success");
+		$.cookie('email', $('#email').val());
+		$('#password').val('');
+		ShowOffices();
+	} else {
+		// actions if any errors appear during authorization:
+		$(".login-github").hide(100);
+		$(".login-error").delay(100).show(100);
+		$(".button-submit").removeClass("processing");
+	}
+	animating = false;
 }

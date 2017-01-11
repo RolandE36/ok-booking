@@ -9,15 +9,13 @@ using BAL;
 namespace MainWebApp.Controllers {
 	public class HomeController : BaseController {
 		public ActionResult Index() {
-			// https://dcrazed.com/css-html-login-form-templates/ - Login design
-
-			/*ViewBag.IsAuthorized = IsAuthorized();
-			if (ViewBag.IsAuthorized) {
-				ViewBag.Offices = Manager.GetOffices();
-			}*/
 			return View();
 		}
 
+		/// <summary>
+		/// Try to authorize user
+		/// </summary>
+		/// <returns>Return true if authorization completed successfully</returns>
 		public bool Login(string email, string password) {
 			try {
 				Exchange = Manager.Login(email, password);
@@ -27,14 +25,24 @@ namespace MainWebApp.Controllers {
 			}
 		}
 
+		/// <summary>
+		/// Ansver is users already authorized
+		/// </summary>
 		public bool IsAuthorized() {
 			return Exchange != null;
 		}
 
+		/// <summary>
+		/// Return partial HTML for offices view
+		/// </summary>
 		public PartialViewResult GetOffices() {
 			return PartialView("_Offices", Manager.GetOffices());
 		}
 
+		/// <summary>
+		/// Return partial HTML for rooms view in the specified office
+		/// </summary>
+		/// <param name="email">Office email addres</param>
 		public PartialViewResult GetRooms(string email)
 		{
 			return PartialView("_Rooms", Manager.GetRooms(email));

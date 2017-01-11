@@ -16,13 +16,19 @@ namespace BAL {
 			this.service = service;
 		}
 
+		/// <summary>
+		/// Try to authorize user. Throw Exception in case of invalid credentials
+		/// </summary>
 		public ExchangeService Login(string email, string password) {
 			service = Service.ConnectToService(new UserData(email, password), new TraceListener());
 			return service;
 		}
 
+		/// <summary>
+		/// Return all offices
+		/// </summary>
 		public List<Office> GetOffices() {
-			EmailAddressCollection roomLists = service.GetRoomLists();
+			EmailAddressCollection roomLists = service.GetRoomLists(); // GetRoomLists - return offices list
 			List<Office> offices = new List<Office>();
 			
 			foreach (EmailAddress address in roomLists) {
@@ -50,6 +56,7 @@ namespace BAL {
 			string userZoneId = "FLE Standard Time"; // +2 Kyiv
 			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
 
+			// go through all meeting rooms
 			for (int i = 0; i < roomsList.Count; i++)
 			{
 				var room = roomsList[i];
@@ -57,7 +64,7 @@ namespace BAL {
 				var message = "";
 				var bookNow = true;
 
-				// go through each meeting in the room and check room availability
+				// go through each meeting (event) in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var meeting in item.CalendarEvents) {
 						// set time zone
@@ -94,6 +101,11 @@ namespace BAL {
 			return rooms;
 		}
 
+		/// <summary>
+		/// Get meeting schedule for each room for current day
+		/// </summary>
+		/// <param name="rooms"></param>
+		/// <returns></returns>
 		private GetUserAvailabilityResults GetRoomsSchedule(Collection<EmailAddress> rooms) {
 			List<AttendeeInfo> attendees = new List<AttendeeInfo>();
 			AvailabilityOptions meetingOptions = new AvailabilityOptions();
@@ -110,8 +122,8 @@ namespace BAL {
 
 			return service.GetUserAvailability(
 										attendees,
-										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)),
-											AvailabilityData.FreeBusyAndSuggestions,
+										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)), // TODO: maybe DateTime.Now we should change to current day start
+											AvailabilityData.FreeBusyAndSuggestions,           // TODO: maybe Suggestions not required
 										meetingOptions);
 		}
 	}
