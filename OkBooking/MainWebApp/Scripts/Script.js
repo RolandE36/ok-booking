@@ -1,8 +1,9 @@
 ﻿$(document).ready(function () {
 
 	// Get latest successful login
-	if ($.cookie('email') !== null) {
+	if ($.cookie('email') !== null && $.cookie('cbRememberMe') == true) {
 		$('#email').val($.cookie('email'));
+		$("#cbRememberMe").prop("checked", true);
 	}
 
 	// Check is user Authorized
@@ -54,6 +55,7 @@
 			$(".login-github").delay(100).show(100);
 			$(".button-submit").addClass("success");
 			$.cookie('email', $('#email').val());
+			$.cookie('cbRememberMe', $('#cbRememberMe').is(':checked'));
 			$('#password').val('');
 			ShowOffices();
 		} else {
