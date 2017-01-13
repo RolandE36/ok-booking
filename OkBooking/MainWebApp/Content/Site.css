@@ -157,9 +157,11 @@ body {
 .lblRememberMe {
 	display: inline;
 	font-size: 1.5rem;
-	vertical-align: super;
+	vertical-align: baseline;
 	color: #a9a9a9;
 	font-weight: initial;
+	position: relative;
+	top: -1.5px;
 }
 
 .button-submit {
