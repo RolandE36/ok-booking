@@ -634,3 +634,16 @@ body {
 .view {
 	height: 100%;
 }
+
+.fav-office-star {
+	float: right;
+	position: relative;
+	top: -5rem;
+	left: -1.25rem;
+	font-size: 3rem;
+	color: darkgray;
+}
+
+.fav-office-star:hover {
+	color: gold;
+}

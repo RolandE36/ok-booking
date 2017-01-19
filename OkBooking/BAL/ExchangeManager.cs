@@ -37,7 +37,7 @@ namespace BAL {
 				offices.Add(new Office() { Email = address.Address, Name = name });
 			}
 
-			return offices;
+			return offices.OrderBy(e => e.Name).ToList();
 		}
 
 		/// <summary>
