@@ -16,6 +16,11 @@ function BindEvents() {
 		if (e.which == 13) { Authorization(); return false; } // if we press ENTER button (13) than try to authorize user and prevent default action (return false;)
 		return true; // user default action in case of other button pressed (return true;)
 	});
+
+	// toggle menu
+	$(document).on("click", '.menu-btn', function () { $('.window').toggleClass('open-menu'); });
+	//$(document).on("swiperight", '.window', function () { alert(1); if (!$('.window').hasClass('open-menu') && $('.login').length == 0) $('.window').toggleClass('open-menu'); });
+	//$(document).on("swipeleft", '.window', function () { alert(2); if ($('.window').hasClass('open-menu')) $('.window').toggleClass('open-menu'); });
 }
 
 // Get latest successful login (remember me functionality)
@@ -40,17 +45,21 @@ function CheckIsUserAlreadyAuthorized() {
 
 // Show list of available offices
 function ShowOffices() {
+	if($('.window').hasClass('open-menu')) return;
+
 	$.ajax({
 		type: "POST",
 		url: "/Home/GetOffices"
 	}).done(function (result) {
-		$('.window').html(result);
+		$('.view').html(result);
 		setTimeout(function () { $('.view').addClass('active'); }, 100);
 	});
 }
 
 // Show list of available rooms
 function ShowRooms(email) {
+	if ($('.window').hasClass('open-menu')) return;
+
 	$.ajax({
 		type: "POST",
 		url: "/Home/GetRooms",
@@ -58,7 +67,7 @@ function ShowRooms(email) {
 			email: email
 		}
 	}).done(function (result) {
-		$('.window').html(result);
+		$('.view').html(result);
 		setTimeout(function () { $('.view').addClass('active'); }, 100);
 	});
 }

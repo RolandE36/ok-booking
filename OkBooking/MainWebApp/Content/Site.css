@@ -282,7 +282,7 @@ body {
   background: #fff;
 }
 */
-.app__menu-btn {
+.menu-btn {
   position: absolute;
   top: 2rem;
   left: 1.5rem;
@@ -290,21 +290,21 @@ body {
   height: 1.7rem;
   cursor: pointer;
 }
-.app__menu-btn span, .app__menu-btn:before, .app__menu-btn:after {
+.menu-btn span, .menu-btn:before, .menu-btn:after {
   position: absolute;
   left: 0;
   width: 100%;
   height: 1px;
   background: rgba(255, 255, 255, 0.6);
 }
-.app__menu-btn span {
+.menu-btn span {
   top: 0.8rem;
 }
-.app__menu-btn:before {
+.menu-btn:before {
   content: "";
   top: 0;
 }
-.app__menu-btn:after {
+.menu-btn:after {
   content: "";
   bottom: 0;
 }
@@ -632,5 +632,68 @@ body {
 }
 
 .view {
+	position: relative;
 	height: 100%;
+	width: 100%;
+	float: left;
+}
+
+.menu {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	left: -100%;
+	background-color: rgba(240, 248, 255, 0.8);
+}
+
+.open-menu .view {
+	left: 85%;
+	animation-duration: 1s;
+	animation-name: move-view;
+}
+
+.open-menu .menu {
+	left: -15%;
+	animation-duration: 1s;
+	animation-name: move-menu;
+	box-shadow: 6px 0px 17px 0px #222;
+}
+
+@keyframes move-menu {
+    to {left: -15%;}
+    from {left: -100%;}
+}
+
+@keyframes move-view {
+    to {left: 85%;}
+    from {left: 0%;}
+}
+
+.menu-content {
+	position: relative;
+	top: -100%;
+	font-size: 2rem;
+	padding-left: 15%;
+}
+
+.menu ul {
+	position: relative;
+	height: 100%;
+	width: 80%;
+	margin-left: 0px;
+	width: 100%;
+}
+
+.menu ul li {
+	display: flex;
+	height: 5.8rem;
+	padding: 1.6rem;
+	background-color: rgba(240, 248, 255, 0.5);
+	border-top: 1px solid #EEEEEF;
+	cursor: pointer;
+	font-size: 1.5rem;
+}
+
+.menu ul li:hover {
+	background-color: rgba(240, 248, 255, 0.9);
 }
