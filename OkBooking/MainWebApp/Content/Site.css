@@ -638,6 +638,12 @@ body {
 	float: left;
 }
 
+.view > div {
+	height: 100%;
+}
+
+/* Start Menu Section */
+
 .menu {
 	position: relative;
 	height: 100%;
@@ -696,4 +702,19 @@ body {
 
 .menu ul li:hover {
 	background-color: rgba(240, 248, 255, 0.9);
+}
+
+/* End Menu Section */
+
+.fav-office-star {
+	float: right;
+	position: relative;
+	top: -5rem;
+	left: -1.25rem;
+	font-size: 3rem;
+	color: darkgray;
+}
+
+.fav-office-star:hover {
+	color: gold;
 }
