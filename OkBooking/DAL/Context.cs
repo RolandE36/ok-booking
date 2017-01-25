@@ -13,5 +13,6 @@ namespace DAL
 		public Context() : base() {}
 
 		public DbSet<User> Users { get; set; }
+		public DbSet<FavouriteOffice> FavouriteOffices { get; set; }
 	}
 }
