@@ -1,9 +1,12 @@
 ﻿using BAL.Authentication;
 using BAL.Model;
+using DAL;
+using DAL.Model;
 using Microsoft.Exchange.WebServices.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +22,32 @@ namespace BAL {
 		/// <summary>
 		/// Try to authorize user. Throw Exception in case of invalid credentials
 		/// </summary>
-		public ExchangeService Login(string email, string password) {
+		public ExchangeService LoginInExhange(string email, string password) {
 			service = Service.ConnectToService(new UserData(email, password), new TraceListener());
 			return service;
 		}
+
+		/// <summary>
+		/// Get user from DB or create user and return
+		/// </summary>
+		public User GetUser(string email)
+		{
+			using (var ctx = new Context()) {
+				// Try to find user in DB
+				var userFromDb = ctx.Users.FirstOrDefault(e => e.Email == email);
+
+				// If user exists in DB than return user.
+				if (userFromDb != null) return userFromDb;
+				
+				// Create user in DB if it not already exists
+				var newUser = new User() {Email = email};
+				ctx.Users.Add(newUser);
+				ctx.SaveChanges();
+
+				// Return created user;
+				return newUser;
+			}
+		} 
 
 		/// <summary>
 		/// Return all offices

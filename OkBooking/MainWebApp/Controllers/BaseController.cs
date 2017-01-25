@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BAL;
+using DAL.Model;
 
 namespace MainWebApp.Controllers {
 	public class BaseController : Controller
@@ -27,6 +28,14 @@ namespace MainWebApp.Controllers {
 				if (manager == null) { manager = new ExchangeManager(Exchange); }
 				return manager;
 			}
+		}
+
+		/// <summary>
+		/// Current authorized user
+		/// </summary>
+		public User CurrentUser {
+			get { return (User) Session["USER"]; }
+			set { Session["USER"] = value; }
 		}
 	}
 }

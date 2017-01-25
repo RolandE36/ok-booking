@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BAL;
+using DAL.Model;
 
 namespace MainWebApp.Controllers {
 	public class HomeController : BaseController {
@@ -18,7 +19,8 @@ namespace MainWebApp.Controllers {
 		/// <returns>Return true if authorization completed successfully</returns>
 		public bool Login(string email, string password) {
 			try {
-				Exchange = Manager.Login(email, password);
+				Exchange = Manager.LoginInExhange(email, password);
+				CurrentUser = Manager.GetUser(email);
 				return true;
 			} catch (Exception e) {
 				return false;
