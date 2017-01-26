@@ -29,6 +29,16 @@ namespace MainWebApp.Controllers {
 			}
 		}
 
+		public string GetError(string email) {
+			try {
+				CurrentUser = Manager.GetUser(email);
+				return "Good";
+			} catch (Exception e)
+			{
+				return e.Message;
+			}
+		}
+
 		/// <summary>
 		/// Ansver is users already authorized
 		/// </summary>

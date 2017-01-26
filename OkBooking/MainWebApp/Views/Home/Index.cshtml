@@ -25,35 +25,3 @@
 		</nav>
 	</div>
 </div>
-
-<ul>
-	@foreach (System.Collections.DictionaryEntry ev in Environment.GetEnvironmentVariables()) {
-		<li><strong>@ev.Key.ToString()</strong> - @ev.Value.ToString()</li>
-	}
-</ul>
-
-<ul>
-	@foreach (System.Configuration.ConnectionStringSettings cs in System.Configuration.ConfigurationManager.ConnectionStrings)
-	{
-		<li><strong>@cs.Name</strong> - @cs.ConnectionString</li>
-	}
-</ul>
-
-<ul>
-	@foreach (System.Collections.DictionaryEntry ev in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine)) {
-		<li><strong>@ev.Key.ToString()</strong> - @ev.Value.ToString()</li>
-	}
-</ul>
-
-<ul>
-	@foreach (System.Collections.DictionaryEntry ev in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
-	{
-		<li><strong>@ev.Key.ToString()</strong> - @ev.Value.ToString()</li>
-	}
-</ul>
-
-<ul>
-	@foreach (System.Collections.DictionaryEntry ev in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Process)) {
-		<li><strong>@ev.Key.ToString()</strong> - @ev.Value.ToString()</li>
-	}
-</ul>
