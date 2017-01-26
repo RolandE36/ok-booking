@@ -13,7 +13,7 @@ namespace DAL
 #if DEBUG
 		public Context() : base() {}
 #else
-		public Context() : base(Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb", EnvironmentVariableTarget.Process)) {
+		public Context() : base(Environment.GetEnvironmentVariable("MYSQLCONNSTR_localdb")) {
 			//Configuration.LazyLoadingEnabled = true;
 		}
 #endif
