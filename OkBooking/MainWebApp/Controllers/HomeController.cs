@@ -25,6 +25,7 @@ namespace MainWebApp.Controllers {
 			} catch (Exception e) {
 				Exchange = null;
 				CurrentUser = null;
+				log.Error(e.Message);
 				return false;
 			}
 		}
