@@ -9,12 +9,13 @@ namespace DAL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+	        AutomaticMigrationDataLossAllowed = true;
 #if DEBUG
 #else
 			SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
 #endif
-		}
+        }
 
 		protected override void Seed(DAL.Context context)
         {
