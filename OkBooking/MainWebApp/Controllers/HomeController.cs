@@ -36,7 +36,7 @@ namespace MainWebApp.Controllers {
 				return "Good";
 			} catch (Exception e)
 			{
-				return e.Message;
+				return e.Message + "\n\n\n\n" + e.InnerException;
 			}
 		}
 
