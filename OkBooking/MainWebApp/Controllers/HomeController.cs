@@ -49,5 +49,10 @@ namespace MainWebApp.Controllers {
 		{
 			return PartialView("_Rooms", Manager.GetRooms(email));
 		}
+
+		public bool AddOfficeToFavourites(string email)
+		{
+			return Manager.AddOfficeToFavourites(CurrentUser.Email, email);
+		}
 	}
 }

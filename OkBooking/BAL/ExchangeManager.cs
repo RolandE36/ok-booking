@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace BAL {
 	public class ExchangeManager {
 		private ExchangeService service;
+		private Context dbContext = new Context();
 
 		public ExchangeManager(ExchangeService service) {
 			this.service = service;
@@ -32,34 +33,32 @@ namespace BAL {
 		/// </summary>
 		public User GetUser(string email)
 		{
-			using (var ctx = new Context()) {
-				// Try to find user in DB
-				var userFromDb = ctx.Users.FirstOrDefault(e => e.Email == email);
+			// Try to find user in DB
+			var userFromDb = dbContext.Users.FirstOrDefault(e => e.Email == email);
 
-				// If user exists in DB than return user.
-				if (userFromDb != null) return userFromDb;
+			// If user exists in DB than return user.
+			if (userFromDb != null) return userFromDb;
 				
-				// Create user in DB if it not already exists
-				var newUser = new User() {Email = email};
-				ctx.Users.Add(newUser);
-				ctx.SaveChanges();
+			// Create user in DB if it not already exists
+			var newUser = new User() {Email = email};
+			dbContext.Users.Add(newUser);
+			dbContext.SaveChanges();
 
-				// Return created user;
-				return newUser;
-			}
+			// Return created user;
+			return newUser;
 		} 
 
 		/// <summary>
 		/// Return all offices
 		/// </summary>
-		public List<Office> GetOffices() {
+		public List<Model.Office> GetOffices() {
 			EmailAddressCollection roomLists = service.GetRoomLists(); // GetRoomLists - return offices list
-			List<Office> offices = new List<Office>();
+			List<Model.Office> offices = new List<Model.Office>();
 			
 			foreach (EmailAddress address in roomLists) {
 				//"Chernivtsi Office Meeting Rooms List"
 				var name = address.Name.Replace("Meeting Rooms List", "").Trim();
-				offices.Add(new Office() { Email = address.Address, Name = name });
+				offices.Add(new Model.Office() { Email = address.Address, Name = name });
 			}
 
 			return offices.OrderBy(e => e.Name).ToList();
@@ -150,6 +149,37 @@ namespace BAL {
 										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)), // TODO: maybe DateTime.Now we should change to current day start
 											AvailabilityData.FreeBusyAndSuggestions,           // TODO: maybe Suggestions not required
 										meetingOptions);
+		}
+
+		private DAL.Model.Offices GetOffice(string officeEmail)
+		{
+			// get office from db
+			var office = dbContext.FavouriteOffices.FirstOrDefault(e => e.Email == officeEmail);
+
+			// if office not exists
+			if (office == null)
+			{
+				// than create new office
+				office = new DAL.Model.Offices() { Email = officeEmail };
+				dbContext.FavouriteOffices.Add(office);
+				dbContext.SaveChanges();
+			}
+
+			// return created or existing office
+			return office;
+		}
+
+		public bool AddOfficeToFavourites(string userEmail, string officeEmail) {
+			try
+			{
+				var office = GetOffice(officeEmail);
+				var user = GetUser(userEmail);
+				user.FavouriteOffices.Add(office);
+				dbContext.SaveChanges();
+				return true;
+			} catch (Exception ex) {
+				return false;
+			}
 		}
 	}
 }

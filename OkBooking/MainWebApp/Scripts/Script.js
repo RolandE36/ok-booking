@@ -56,6 +56,19 @@ function ShowOffices() {
 	});
 }
 
+function AddOfficeToFavourites(email) {
+	if ($('.window').hasClass('open-menu')) return;
+
+	$.ajax({
+		type: "POST",
+		url: "/Home/AddOfficeToFavourites",
+		data: {
+			email: email
+		}
+	}).done(function (result) {
+	});
+}
+
 // Show list of available rooms
 function ShowRooms(email) {
 	if ($('.window').hasClass('open-menu')) return;

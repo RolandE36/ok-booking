@@ -33,7 +33,7 @@ namespace MainWebApp.Controllers {
 		/// <summary>
 		/// Current authorized user
 		/// </summary>
-		public User CurrentUser {
+		protected User CurrentUser {
 			get { return (User) Session["USER"]; }
 			set { Session["USER"] = value; }
 		}

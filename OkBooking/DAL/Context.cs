@@ -10,9 +10,9 @@ namespace DAL
 {
 	public class Context : DbContext
 	{
-		public Context() : base() {}
+		public Context() : base("DefaultConnection") {}
 
 		public DbSet<User> Users { get; set; }
-		public DbSet<FavouriteOffice> FavouriteOffices { get; set; }
+		public DbSet<Offices> FavouriteOffices { get; set; }
 	}
 }

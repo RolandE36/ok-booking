@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace DAL.Model
 {
-	public class User
-	{
+	public class User {
+		public User() {
+			FavouriteOffices = new HashSet<Offices>();
+		}
+
 		[Key]
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public ICollection<FavouriteOffice> FavouriteOffices { get; set; }
+		public virtual ICollection<Offices> FavouriteOffices { get; set; }
 	}
 }

@@ -58,12 +58,12 @@
     <Compile Include="Migrations\201701250855436_renamed-column-login-to-email.Designer.cs">
       <DependentUpon>201701250855436_renamed-column-login-to-email.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701251339481_added-favourite-offices.cs" />
-    <Compile Include="Migrations\201701251339481_added-favourite-offices.Designer.cs">
-      <DependentUpon>201701251339481_added-favourite-offices.cs</DependentUpon>
+    <Compile Include="Migrations\201701311326423_added-offices.cs" />
+    <Compile Include="Migrations\201701311326423_added-offices.Designer.cs">
+      <DependentUpon>201701311326423_added-offices.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\FavouriteOffice.cs" />
+    <Compile Include="Model\Office.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,8 +78,8 @@
     <EmbeddedResource Include="Migrations\201701250855436_renamed-column-login-to-email.resx">
       <DependentUpon>201701250855436_renamed-column-login-to-email.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701251339481_added-favourite-offices.resx">
-      <DependentUpon>201701251339481_added-favourite-offices.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701311326423_added-offices.resx">
+      <DependentUpon>201701311326423_added-offices.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
