@@ -9,10 +9,14 @@ namespace DAL.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+	        AutomaticMigrationDataLossAllowed = true;
+#if (!DEBUG)
+			SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
+#endif
         }
 
-        protected override void Seed(DAL.Context context)
+		protected override void Seed(DAL.Context context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -21,6 +21,8 @@ namespace MainWebApp.Controllers {
 			set { Session[EXCHANGE_SERVICE] = value; }
 		}
 
+		protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		private ExchangeManager manager;
 
 		protected ExchangeManager Manager {

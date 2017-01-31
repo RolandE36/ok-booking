@@ -23,7 +23,20 @@ namespace MainWebApp.Controllers {
 				CurrentUser = Manager.GetUser(email);
 				return true;
 			} catch (Exception e) {
+				Exchange = null;
+				CurrentUser = null;
+				log.Error(e.Message);
 				return false;
+			}
+		}
+
+		public string GetError(string email) {
+			try {
+				CurrentUser = Manager.GetUser(email);
+				return "Good";
+			} catch (Exception e)
+			{
+				return e.Message + "\n\n\n\n" + e.InnerException;
 			}
 		}
 
