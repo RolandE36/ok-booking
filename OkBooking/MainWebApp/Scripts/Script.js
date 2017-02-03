@@ -59,7 +59,7 @@ function ShowOffices() {
 function ToggleFavouriteOffice(email) {
 	if ($('.window').hasClass('open-menu')) return;
 
-	//$(this).toggleClass("fav-office-star-active");
+	$(this.event.srcElement).toggleClass("fav-office-star-active");
 
 	$.ajax({
 		type: "POST",
@@ -70,7 +70,8 @@ function ToggleFavouriteOffice(email) {
 	}).done(function (result) {
 	});
 
-	return false;
+	this.event.preventDefault();
+	this.event.stopPropagation();
 }
 
 // Show list of available rooms
