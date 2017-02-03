@@ -51,7 +51,7 @@ namespace MainWebApp.Controllers {
 		/// Return partial HTML for offices view
 		/// </summary>
 		public PartialViewResult GetOffices() {
-			return PartialView("_Offices", Manager.GetOffices());
+			return PartialView("_Offices", Manager.GetOffices(CurrentUser.Email));
 		}
 
 		/// <summary>
@@ -63,9 +63,9 @@ namespace MainWebApp.Controllers {
 			return PartialView("_Rooms", Manager.GetRooms(email));
 		}
 
-		public bool AddOfficeToFavourites(string email)
+		public bool ToggleFavouriteOffice(string email)
 		{
-			return Manager.AddOfficeToFavourites(CurrentUser.Email, email);
+			return Manager.ToggleFavouriteOffice(CurrentUser.Email, email);
 		}
 	}
 }

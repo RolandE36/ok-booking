@@ -715,6 +715,7 @@ body {
 	color: darkgray;
 }
 
+.fav-office-star-active,
 .fav-office-star:hover {
 	color: gold;
 }

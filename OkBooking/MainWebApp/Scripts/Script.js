@@ -56,17 +56,21 @@ function ShowOffices() {
 	});
 }
 
-function AddOfficeToFavourites(email) {
+function ToggleFavouriteOffice(email) {
 	if ($('.window').hasClass('open-menu')) return;
+
+	//$(this).toggleClass("fav-office-star-active");
 
 	$.ajax({
 		type: "POST",
-		url: "/Home/AddOfficeToFavourites",
+		url: "/Home/ToggleFavouriteOffice",
 		data: {
 			email: email
 		}
 	}).done(function (result) {
 	});
+
+	return false;
 }
 
 // Show list of available rooms
