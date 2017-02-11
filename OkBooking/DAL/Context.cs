@@ -12,6 +12,13 @@ namespace DAL
 	{
 		public Context() : base("DefaultConnection") {}
 
+		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
+			base.OnModelCreating(modelBuilder);
+
+			modelBuilder.Properties<String>().Configure(c => c.HasColumnType("longtext"));
+			modelBuilder.Properties<string>().Configure(c => c.HasColumnType("longtext"));
+		}
+
 		public DbSet<User> Users { get; set; }
 		public DbSet<Offices> FavouriteOffices { get; set; }
 	}

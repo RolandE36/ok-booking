@@ -5,18 +5,16 @@ namespace DAL.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DAL.Context>
+    public sealed class Configuration : DbMigrationsConfiguration<DAL.Context>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-	        AutomaticMigrationDataLossAllowed = true;
-#if (!DEBUG)
+			AutomaticMigrationDataLossAllowed = true;
 			SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
-#endif
-        }
+		}
 
-		protected override void Seed(DAL.Context context)
+        protected override void Seed(DAL.Context context)
         {
             //  This method will be called after migrating to the latest version.
 
