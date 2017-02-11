@@ -709,12 +709,13 @@ body {
 .fav-office-star {
 	float: right;
 	position: relative;
-	top: -5rem;
-	left: -1.25rem;
+	top: -3.25rem;
+	left: 0.75rem;
 	font-size: 3rem;
 	color: darkgray;
 }
 
+.fav-office-star-active,
 .fav-office-star:hover {
 	color: gold;
 }

@@ -51,14 +51,23 @@ namespace BAL {
 		/// <summary>
 		/// Return all offices
 		/// </summary>
-		public List<Model.Office> GetOffices() {
+		public List<Model.Office> GetOffices(string userEmail) {
 			EmailAddressCollection roomLists = service.GetRoomLists(); // GetRoomLists - return offices list
 			List<Model.Office> offices = new List<Model.Office>();
-			
-			foreach (EmailAddress address in roomLists) {
+
+			var user = GetUser(userEmail);
+
+			foreach (EmailAddress ssAddress in roomLists) {
 				//"Chernivtsi Office Meeting Rooms List"
-				var name = address.Name.Replace("Meeting Rooms List", "").Trim();
-				offices.Add(new Model.Office() { Email = address.Address, Name = name });
+				string name = ssAddress.Name.Replace("Meeting Rooms List", "").Trim();
+				bool isFavourite = user.FavouriteOffices.FirstOrDefault(e => e.Email == ssAddress.Address) != null;
+
+				offices.Add(new Model.Office() {
+					Email = ssAddress.Address,
+					Name = name,
+					IsFavourite = isFavourite,
+					CssClass = isFavourite ? "fav-office-star-active" : ""
+				});
 			}
 
 			return offices.OrderBy(e => e.Name).ToList();
@@ -169,12 +178,16 @@ namespace BAL {
 			return office;
 		}
 
-		public bool AddOfficeToFavourites(string userEmail, string officeEmail) {
+		public bool ToggleFavouriteOffice(string userEmail, string officeEmail) {
 			try
 			{
 				var office = GetOffice(officeEmail);
 				var user = GetUser(userEmail);
-				user.FavouriteOffices.Add(office);
+				if (!user.FavouriteOffices.Contains(office)) {
+					user.FavouriteOffices.Add(office);
+				} else {
+					user.FavouriteOffices.Remove(office);
+				}
 				dbContext.SaveChanges();
 				return true;
 			} catch (Exception ex) {
