@@ -90,12 +90,12 @@ namespace BAL {
 			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
 
 			// go through all meeting rooms
-			for (int i = 0; i < roomsList.Count; i++)
-			{
+			for (int i = 0; i < roomsList.Count; i++) {
 				var room = roomsList[i];
 				var item = schedule.AttendeesAvailability[i];
 				var message = "";
 				var bookNow = true;
+				bool[] reservedTime = new bool[24*60];
 
 				// go through each meeting (event) in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
@@ -104,30 +104,25 @@ namespace BAL {
 						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, userZone);
 						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, userZone);
 
-						// skip finished meeting
-						if (meeting.StartTime < DateTime.Now && meeting.EndTime < DateTime.Now) continue;
+						// get minute ranges
+						int startMinute = meetingStartTime.Hour * 60 + meetingStartTime.Minute;
+						int endMinute = meetingEndTime.Hour * 60 + meetingEndTime.Minute;
 
-						// meeting in progress
-						if (meeting.StartTime <= DateTime.Now && meeting.EndTime >= DateTime.Now) {
-							message += "... - " + meetingEndTime.ToString("HH:mm") + "; ";
-							bookNow = false;
-						}
-
-						// future meeting
-						if (meeting.StartTime > DateTime.Now && meeting.EndTime >= DateTime.Now) {
-
-							// we can't book room if we have only 15 minutes till the next meeting
-							var span = new TimeSpan(meeting.StartTime.Ticks - DateTime.Now.Ticks);
-							if (bookNow && span.Minutes <= 15) { bookNow = false; }
-
-							message = string.Format("{0} - {1}", meetingStartTime.ToString("HH:mm"), meetingEndTime.ToString("HH:mm"));
-							break;
+						// mark each minute as reserved
+						for (int minute = startMinute; minute <= endMinute; minute++) {
+							reservedTime[minute] = true;
 						}
 
 						// skip next days
 						if (meeting.StartTime.Day != DateTime.Now.Day) break;
 					}
 				}
+
+				int timeMinuteNow = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+				if (reservedTime[timeMinuteNow] == true)
+				{
+					message = "Reserved";
+				} else message = "Not reserved";
 
 				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message, BookNow = bookNow});
 			}
