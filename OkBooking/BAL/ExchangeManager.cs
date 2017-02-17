@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace BAL {
 	public class ExchangeManager {
+		private const int TOTAL_MINUTES = 24 * 60;
+
 		private ExchangeService service;
 		private Context dbContext = new Context();
 
@@ -88,6 +90,8 @@ namespace BAL {
 
 			string userZoneId = "FLE Standard Time"; // +2 Kyiv
 			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
+			DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, userZone);
+			TimeSpan timeSpan;
 
 			// go through all meeting rooms
 			for (int i = 0; i < roomsList.Count; i++) {
@@ -95,7 +99,7 @@ namespace BAL {
 				var item = schedule.AttendeesAvailability[i];
 				var message = "";
 				var bookNow = true;
-				bool[] reservedTime = new bool[24*60];
+				bool[] reservedTime = new bool[TOTAL_MINUTES];
 
 				// go through each meeting (event) in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
@@ -114,15 +118,34 @@ namespace BAL {
 						}
 
 						// skip next days
-						if (meeting.StartTime.Day != DateTime.Now.Day) break;
+						if (meeting.StartTime.Day != userTimeNow.Day) break;
 					}
 				}
 
-				int timeMinuteNow = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-				if (reservedTime[timeMinuteNow] == true)
-				{
-					message = "Reserved";
-				} else message = "Not reserved";
+				int roomEmptyStartTime = userTimeNow.Hour * 60 + userTimeNow.Minute;
+				if (reservedTime[roomEmptyStartTime] == true) {
+					// if room is reserver now than lets find first empty time
+					
+					// while not array end and room is reserved
+					while (roomEmptyStartTime < TOTAL_MINUTES && reservedTime[roomEmptyStartTime] == true) roomEmptyStartTime++;
+
+					// Get message
+					timeSpan = new TimeSpan(roomEmptyStartTime / 60, roomEmptyStartTime % 60, 0);
+					message = timeSpan.ToString(@"hh\:mm");
+				} else {
+					// if room is empty now
+					message = "now";
+				}
+
+				message += " - ";
+				// finding end of free time
+				int roomEmptyEndTime = roomEmptyStartTime + 1;
+				while (roomEmptyEndTime < TOTAL_MINUTES && reservedTime[roomEmptyEndTime] == false) roomEmptyEndTime++;
+				roomEmptyEndTime--; // 00:00 -> 23:59
+				timeSpan = new TimeSpan(roomEmptyEndTime / 60, roomEmptyEndTime % 60, 0);
+				message += timeSpan.ToString(@"hh\:mm");
+				// if all rooms are booked
+				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, all meeting rooms in your location have been reserved for today.";
 
 				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message, BookNow = bookNow});
 			}
