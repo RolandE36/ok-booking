@@ -90,6 +90,24 @@ function ShowRooms(email) {
 	});
 }
 
+// Show booking page
+function ShowBooking(email, startAvailableTime, endAvailableTime) {
+	if ($('.window').hasClass('open-menu')) return;
+
+	$.ajax({
+		type: "POST",
+		url: "/Home/GetBooking",
+		data: {
+			email: email,
+			startAvailableTime: startAvailableTime,
+			endAvailableTime: endAvailableTime
+		}
+	}).done(function (result) {
+		$('.view').html(result);
+		setTimeout(function () { $('.view').addClass('active'); }, 100);
+	});
+}
+
 // Email and password validation
 function Authorization() {
 	if (animating) return;

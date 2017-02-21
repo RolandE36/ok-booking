@@ -152,10 +152,16 @@ namespace BAL {
 					Email = room.Address,
 					MessageFreeTime = message,
 					BookNow = bookNow,
-					FirstAvailableTime = roomEmptyStartTime
+					StartAvailableTime = roomEmptyStartTime,
+					EndAvailableTime = roomEmptyEndTime
 				});
 			}
-			return rooms.OrderBy(e => e.FirstAvailableTime).ThenBy(e => e.Name).ToList();
+			return rooms.OrderBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
+		}
+
+		public Object GetBooking(string email, int startAvailableTime, int endAvailableTime)
+		{
+			return new Object();
 		}
 
 		/// <summary>

@@ -11,6 +11,7 @@ namespace BAL.Model
 		public string Email { get; set; }
 		public string MessageFreeTime { get; set; }
 		public bool BookNow { get; set; }
-		public int FirstAvailableTime { get; set; }
+		public int StartAvailableTime { get; set; }
+		public int EndAvailableTime { get; set; }
 	}
 }
