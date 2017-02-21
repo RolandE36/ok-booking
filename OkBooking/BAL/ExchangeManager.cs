@@ -147,9 +147,15 @@ namespace BAL {
 				// if all rooms are booked
 				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, all meeting rooms in your location have been reserved for today.";
 
-				rooms.Add(new Room() { Name = room.Name, Email = room.Address, Time = message, BookNow = bookNow});
+				rooms.Add(new Room() {
+					Name = room.Name,
+					Email = room.Address,
+					MessageFreeTime = message,
+					BookNow = bookNow,
+					FirstAvailableTime = roomEmptyStartTime
+				});
 			}
-			return rooms;
+			return rooms.OrderBy(e => e.FirstAvailableTime).ThenBy(e => e.Name).ToList();
 		}
 
 		/// <summary>
