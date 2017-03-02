@@ -1,9 +1,10 @@
 ﻿@model List<BAL.Model.Room>
+
 <div class="rooms">
 	@Html.Partial("_Header", "Reserve Now")
 	<div class="items-list">
 		@foreach (var room in Model) {
-			<div class="list-item" onclick="ShowBooking('@room.Email', @room.StartAvailableTime, @room.EndAvailableTime)">
+			<div class="list-item" onclick="ShowBooking('@room.Name', '@room.Email', @room.StartAvailableTime, @room.EndAvailableTime)">
 				<img src="/Content/img/outlook-icon.png" alt="" class="list-item-photo"/>
 				<p class="list-item-name">@room.Name</p>
 				<p class="list-item-info">

@@ -1,1 +1,9 @@
-﻿jhjgjhgjg
+﻿@model BAL.Model.BookingDTO
+
+<div class="booking">
+	@Html.Partial("_Header", "Reserve Now")
+	<div class="page-body">
+		Would you like to reserve room @Model.Name
+		from [hh1:mm1] to [hh2:mm2] ?
+	</div>
+</div>

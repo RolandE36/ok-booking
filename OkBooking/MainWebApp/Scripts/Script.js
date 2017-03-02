@@ -91,13 +91,14 @@ function ShowRooms(email) {
 }
 
 // Show booking page
-function ShowBooking(email, startAvailableTime, endAvailableTime) {
+function ShowBooking(name, email, startAvailableTime, endAvailableTime) {
 	if ($('.window').hasClass('open-menu')) return;
 
 	$.ajax({
 		type: "POST",
 		url: "/Home/GetBooking",
 		data: {
+			name: name,
 			email: email,
 			startAvailableTime: startAvailableTime,
 			endAvailableTime: endAvailableTime

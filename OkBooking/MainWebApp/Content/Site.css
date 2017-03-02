@@ -613,13 +613,16 @@ body {
   }
 }
 	
-.items-list {
+.items-list, .page-body {
 	overflow-y: auto;
 	height: inherit;
 	background: #fff;
 	height: 80%;
 	background: rgba(255, 255, 255, 0.75);
+}
 
+.page-body {
+	font-size: 1.5rem;
 }
 
 .list-item:hover {

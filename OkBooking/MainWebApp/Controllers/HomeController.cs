@@ -63,9 +63,9 @@ namespace MainWebApp.Controllers {
 			return PartialView("_Rooms", Manager.GetRooms(email));
 		}
 
-		public PartialViewResult GetBooking(string email, int startAvailableTime, int endAvailableTime)
+		public PartialViewResult GetBooking(string name, string email, int startAvailableTime, int endAvailableTime)
 		{
-			return PartialView("_Booking", Manager.GetBooking(email, startAvailableTime, endAvailableTime));
+			return PartialView("_Booking", Manager.GetBooking(name, email, startAvailableTime, endAvailableTime));
 		}
 
 		public bool ToggleFavouriteOffice(string email)

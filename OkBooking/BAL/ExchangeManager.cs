@@ -84,6 +84,7 @@ namespace BAL {
 
 			var emailAddress = new EmailAddress(email);
 			var roomsList = service.GetRooms(emailAddress);
+
 			List<Room> rooms = new List<Room>();
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
@@ -159,9 +160,15 @@ namespace BAL {
 			return rooms.OrderBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
 		}
 
-		public Object GetBooking(string email, int startAvailableTime, int endAvailableTime)
+		public BookingDTO GetBooking(string name, string email, int startAvailableTime, int endAvailableTime)
 		{
-			return new Object();
+			var booking = new BookingDTO();
+			booking.Name = name;
+			booking.Email = email;
+
+			// TODO: startAvailableTime, endAvailableTime
+
+			return booking;
 		}
 
 		/// <summary>
