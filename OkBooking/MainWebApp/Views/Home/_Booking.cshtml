@@ -9,6 +9,24 @@
 </div>
 
 <script type="text/javascript">
-	$('.start-time').pickatime();
-	$('.end-time').pickatime();
+	// Pickers initialization
+	$('.start-time').pickatime({
+		format: 'HH:i',
+		formatLabel: 'HH:i',
+		interval: 5
+	});
+
+	$('.end-time').pickatime({
+		format: 'HH:i',
+		formatLabel: 'HH:i',
+		interval: 5
+	});
+
+	// Get pickers
+	var startTimePicker = $('.start-time').pickatime('picker');
+	var endTimePicker = $('.end-time').pickatime('picker');
+
+	// Set pickers values
+	startTimePicker.set('select', [@Model.StartTime.Hours, @Model.StartTime.Minutes]);
+	endTimePicker.set('select', [@Model.EndTime.Hours, @Model.EndTime.Minutes]);
 </script>

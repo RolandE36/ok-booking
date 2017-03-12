@@ -165,8 +165,8 @@ namespace BAL {
 			var booking = new BookingDTO();
 			booking.Name = name;
 			booking.Email = email;
-
-			// TODO: startAvailableTime, endAvailableTime
+			booking.StartTime = TimeSpan.FromMinutes(startAvailableTime);
+			booking.EndTime = TimeSpan.FromMinutes(endAvailableTime);
 
 			return booking;
 		}
