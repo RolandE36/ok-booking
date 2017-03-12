@@ -625,6 +625,10 @@ body {
 	font-size: 1.5rem;
 }
 
+.booking .page-body {
+	padding: 1rem;
+}
+
 .list-item:hover {
 	background: rgba(255, 255, 255, 0.4);
 	cursor: pointer;

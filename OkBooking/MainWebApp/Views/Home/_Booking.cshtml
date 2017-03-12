@@ -3,7 +3,12 @@
 <div class="booking">
 	@Html.Partial("_Header", "Reserve Now")
 	<div class="page-body">
-		Would you like to reserve room @Model.Name
-		from [hh1:mm1] to [hh2:mm2] ?
+		Would you like to reserve room <b>@Model.Name</b>
+		from <input class="start-time"/> to <input class="end-time" /> ?
 	</div>
 </div>
+
+<script type="text/javascript">
+	$('.start-time').pickatime();
+	$('.end-time').pickatime();
+</script>
