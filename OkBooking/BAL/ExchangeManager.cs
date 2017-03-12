@@ -171,6 +171,33 @@ namespace BAL {
 			return booking;
 		}
 
+		public void BookNow(User user, string roomEmail, int start, int end)
+		{
+			Appointment meeting = new Appointment(service);
+
+			// Set the properties on the meeting object to create the meeting.
+			meeting.Subject = "Team building exercise";
+			meeting.Body = "Let's learn to really work as a team and then have lunch!";
+
+			// TODO: Convert to UTC
+			meeting.Start = DateTime.UtcNow.Date.AddMinutes(start);
+			meeting.End = DateTime.UtcNow.Date.AddMinutes(end);
+
+			meeting.Location = roomEmail;//"Conference Room 12";
+			meeting.RequiredAttendees.Add(roomEmail);
+			meeting.RequiredAttendees.Add(user.Email);
+			//meeting.OptionalAttendees.Add("Magdalena@contoso.com");
+			meeting.ReminderMinutesBeforeStart = 15;
+
+			// Save the meeting to the Calendar folder and send the meeting request.
+			meeting.Save(SendInvitationsMode.SendToAllAndSaveCopy);
+
+			// TODO: Check it later:
+			// Verify that the meeting was created.
+			// Item item = Item.Bind(service, meeting.Id, new PropertySet(ItemSchema.Subject));
+			// Console.WriteLine("\nMeeting created: " + item.Subject + "\n");
+		}
+
 		/// <summary>
 		/// Get meeting schedule for each room for current day
 		/// </summary>

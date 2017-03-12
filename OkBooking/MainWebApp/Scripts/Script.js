@@ -109,6 +109,26 @@ function ShowBooking(name, email, startAvailableTime, endAvailableTime) {
 	});
 }
 
+function BookNow(email) {
+	// Get pickers
+	var startTimePicker = $('.start-time').pickatime('picker');
+	var endTimePicker = $('.end-time').pickatime('picker');
+	
+	// Booking
+	$.ajax({
+		type: "POST",
+		url: "/Home/BookNow",
+		data: {
+			email: email,
+			start: startTimePicker.get('select').time,
+			end: endTimePicker.get('select').time
+		}
+	}).done(function (result) {
+		// TODO: Add more detailed message and handle errors.
+		alert('Booking completed!');
+	});
+}
+
 // Email and password validation
 function Authorization() {
 	if (animating) return;
