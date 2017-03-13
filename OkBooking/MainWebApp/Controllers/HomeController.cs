@@ -60,6 +60,7 @@ namespace MainWebApp.Controllers {
 		/// <param name="email">Office email addres</param>
 		public PartialViewResult GetRooms(string email)
 		{
+			Response.Cookies.Add(new HttpCookie("LastSelectedOffice", email));
 			return PartialView("_Rooms", Manager.GetRooms(email));
 		}
 

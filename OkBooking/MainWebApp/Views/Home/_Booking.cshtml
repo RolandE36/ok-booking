@@ -7,6 +7,7 @@
 		from <input class="start-time"/> to <input class="end-time" /> ?
 
 		<button type="button" class="btn-book" onclick="BookNow('@Model.Email')">Book Now</button>
+		<button type="button" class="btn-cancel" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
 	</div>
 </div>
 
