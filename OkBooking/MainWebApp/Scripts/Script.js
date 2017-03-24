@@ -83,7 +83,9 @@ function ShowRooms(email) {
 		url: "/Home/GetRooms",
 		data: {
 			email: email
-		}
+		},
+		beforeSend: function () { $(".progress").show(); },
+		complete: function () { $(".progress").hide(); }
 	}).done(function (result) {
 		$('.view').html(result);
 		setTimeout(function () { $('.view').addClass('active'); }, 100);
@@ -122,7 +124,9 @@ function BookNow(email) {
 			email: email,
 			start: startTimePicker.get('select').time,
 			end: endTimePicker.get('select').time
-		}
+		},
+		beforeSend: function () { $(".progress").show(); },
+		complete: function () { $(".progress").hide(); }
 	}).done(function (result) {
 		// TODO: Add more detailed message and handle errors.
 		alert('Booking completed!');
