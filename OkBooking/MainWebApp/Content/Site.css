@@ -743,35 +743,35 @@ body {
 	display: none;
 }
 
-	.progress .indeterminate {
-		background-color: #006ec3;
-	}
+.progress .indeterminate {
+	background-color: #006ec3;
+}
 
-		.progress .indeterminate:before {
-			content: '';
-			position: absolute;
-			background-color: inherit;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			will-change: left, right;
-			-webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-			animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-		}
+.progress .indeterminate:before {
+	content: '';
+	position: absolute;
+	background-color: inherit;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	will-change: left, right;
+	-webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+	animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
 
-		.progress .indeterminate:after {
-			content: '';
-			position: absolute;
-			background-color: inherit;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			will-change: left, right;
-			-webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-			animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-			-webkit-animation-delay: 1.15s;
-			animation-delay: 1.15s;
-		}
+.progress .indeterminate:after {
+	content: '';
+	position: absolute;
+	background-color: inherit;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	will-change: left, right;
+	-webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+	animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+	-webkit-animation-delay: 1.15s;
+	animation-delay: 1.15s;
+}
 
 @-webkit-keyframes indeterminate {
 	0% {
@@ -839,4 +839,64 @@ body {
 		left: 107%;
 		right: -8%;
 	}
+}
+
+.time-input {
+	width: 8rem;
+	display: inline-block;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 10px 20px;
+	border: none;
+	font: normal 16px/normal "Times New Roman", Times, serif;
+	color: rgba(0,142,198,1);
+	-o-text-overflow: clip;
+	text-overflow: clip;
+	background: rgba(252,252,252,1);
+	-webkit-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+	box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+	text-shadow: 1px 1px 0 rgba(255,255,255,0.66);
+	-webkit-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+	-moz-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+	-o-transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+	transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1);
+	text-align: center;
+}
+
+.blue-button {
+	width: 25rem;
+	margin-left: auto;
+	margin-right: auto;
+	margin: 2px;
+	display: inline-block;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	cursor: pointer;
+	padding: 10px 10px;
+	border: none;
+	#font: normal 16px/normal "Times New Roman", Times, serif;
+	color: rgba(255,255,255,0.9);
+	-o-text-overflow: clip;
+	text-overflow: clip;
+	background: #006ec3;
+	-webkit-box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
+	box-shadow: 2px 2px 2px 0 rgba(0,0,0,0.2);
+	text-shadow: -1px -1px 0 rgba(15,73,168,0.66);
+	-webkit-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+	-moz-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+	-o-transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+	transition: all 300ms cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.booking-input-table {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.booking-input-table td {
+	padding: 0px 5px;
 }
