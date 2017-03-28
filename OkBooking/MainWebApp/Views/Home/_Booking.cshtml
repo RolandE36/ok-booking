@@ -11,8 +11,8 @@
 				<td>To</td>
 			</tr>
 			<tr>
-				<td><input class="start-time time-input" /></td>
-				<td><input class="end-time time-input" /></td>
+				<td><input type="time" required="required" value="@Model.StartTime.Hours.ToString("00"):@Model.StartTime.Minutes.ToString("00")" class="start-time time-input" /></td>
+				<td><input type="time" required="required" value="@Model.EndTime.Hours.ToString("00"):@Model.EndTime.Minutes.ToString("00")" class="end-time time-input" /></td>
 			</tr>
 		</table>
 
@@ -20,26 +20,3 @@
 		<button type="button" class="btn-cancel blue-button" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
 	</div>
 </div>
-
-<script type="text/javascript">
-	// Pickers initialization
-	$('.start-time').pickatime({
-		format: 'HH:i',
-		formatLabel: 'HH:i',
-		interval: 5
-	});
-
-	$('.end-time').pickatime({
-		format: 'HH:i',
-		formatLabel: 'HH:i',
-		interval: 5
-	});
-
-	// Get pickers
-	var startTimePicker = $('.start-time').pickatime('picker');
-	var endTimePicker = $('.end-time').pickatime('picker');
-
-	// Set pickers values
-	startTimePicker.set('select', [@Model.StartTime.Hours, @Model.StartTime.Minutes]);
-	endTimePicker.set('select', [@Model.EndTime.Hours, @Model.EndTime.Minutes]);
-</script>

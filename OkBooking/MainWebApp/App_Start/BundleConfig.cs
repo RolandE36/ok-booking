@@ -7,9 +7,9 @@ namespace MainWebApp {
 		public static void RegisterBundles(BundleCollection bundles) {
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
 						"~/Scripts/jquery.cookie.js",
-						"~/Scripts/jquery-{version}.js",
-						"~/Scripts/pickadate/picker.js",
-						"~/Scripts/pickadate/picker.time.js"));
+						"~/Scripts/jquery-{version}.js"));
+						//"~/Scripts/pickadate/picker.js",
+						//"~/Scripts/pickadate/picker.time.js"
 
 			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 						"~/Scripts/jquery.validate*"));
@@ -26,9 +26,9 @@ namespace MainWebApp {
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
-					  "~/Content/site.css",
-					  "~/Scripts/pickadate/themes/default.css",
-					  "~/Scripts/pickadate/themes/default.time.css"));
+					  "~/Content/site.css"));
+					//"~/Scripts/pickadate/themes/default.css",
+					//"~/Scripts/pickadate/themes/default.time.css"
 		}
 	}
 }

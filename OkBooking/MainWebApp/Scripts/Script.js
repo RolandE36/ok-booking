@@ -112,9 +112,13 @@ function ShowBooking(name, email, startAvailableTime, endAvailableTime) {
 }
 
 function BookNow(email) {
-	// Get pickers
-	var startTimePicker = $('.start-time').pickatime('picker');
-	var endTimePicker = $('.end-time').pickatime('picker');
+	// Get Values
+	var startTimeArr = $('.start-time').val().split(':');
+	var stHours = parseInt(startTimeArr[0]);
+	var stMin = parseInt(startTimeArr[1]);
+	var endTimeArr = $('.end-time').val().split(':');
+	var endHours = parseInt(endTimeArr[0]);
+	var endMin = parseInt(endTimeArr[1]);
 	
 	// Booking
 	$.ajax({
@@ -122,8 +126,8 @@ function BookNow(email) {
 		url: "/Home/BookNow",
 		data: {
 			email: email,
-			start: startTimePicker.get('select').time,
-			end: endTimePicker.get('select').time
+			start: stHours * 60 + stMin,
+			end: endHours * 60 + endMin
 		},
 		beforeSend: function () { $(".progress").show(); },
 		complete: function () { $(".progress").hide(); }
