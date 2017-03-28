@@ -148,6 +148,9 @@ namespace BAL {
 				// if all rooms are booked
 				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, all meeting rooms in your location have been reserved for today.";
 
+				// We can't show 00:00 on UI. 
+				if (roomEmptyEndTime == TOTAL_MINUTES) roomEmptyEndTime--;
+
 				rooms.Add(new Room() {
 					Name = room.Name,
 					Email = room.Address,
