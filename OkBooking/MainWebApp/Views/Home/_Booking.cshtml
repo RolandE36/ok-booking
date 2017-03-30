@@ -3,20 +3,12 @@
 <div class="booking">
 	@Html.Partial("_Header", "Reserve Now")
 	<div class="page-body">
-		Would you like to reserve room <b>@Model.Name</b>?
+		Would you like to reserve room <b>@Model.Name</b>?<br/>
 
-		<table class="booking-input-table">
-			<tr>
-				<td>From</td>
-				<td>To</td>
-			</tr>
-			<tr>
-				<td><input type="time" required="required" value="@Model.StartTime.Hours.ToString("00"):@Model.StartTime.Minutes.ToString("00")" class="start-time time-input" /></td>
-				<td><input type="time" required="required" value="@Model.EndTime.Hours.ToString("00"):@Model.EndTime.Minutes.ToString("00")" class="end-time time-input" /></td>
-			</tr>
-		</table>
+		<input type="time" required="required" value="@Model.StartTime.Hours.ToString("00"):@Model.StartTime.Minutes.ToString("00")" class="start-time time-input" />
+		<input type="time" required="required" value="@Model.EndTime.Hours.ToString("00"):@Model.EndTime.Minutes.ToString("00")" class="end-time time-input" />
 
-		<button type="button" class="btn-book blue-button" onclick="BookNow('@Model.Email', '@Model.Name')">Book Now</button>
-		<button type="button" class="btn-cancel blue-button" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
+		<button type="button" class="btn-book blue-button button" onclick="BookNow('@Model.Email', '@Model.Name')">Book Now</button>
+		<button type="button" class="btn-cancel blue-button button" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
 	</div>
 </div>
