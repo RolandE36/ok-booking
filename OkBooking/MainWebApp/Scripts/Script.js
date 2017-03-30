@@ -111,7 +111,7 @@ function ShowBooking(name, email, startAvailableTime, endAvailableTime) {
 	});
 }
 
-function BookNow(email) {
+function BookNow(email, name) {
 	// Get Values
 	var startTimeArr = $('.start-time').val().split(':');
 	var stHours = parseInt(startTimeArr[0]);
@@ -126,6 +126,7 @@ function BookNow(email) {
 		url: "/Home/BookNow",
 		data: {
 			email: email,
+			subject: name,
 			start: stHours * 60 + stMin,
 			end: endHours * 60 + endMin
 		},

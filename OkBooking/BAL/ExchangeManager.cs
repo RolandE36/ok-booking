@@ -174,19 +174,19 @@ namespace BAL {
 			return booking;
 		}
 
-		public void BookNow(User user, string roomEmail, int start, int end)
+		public void BookNow(User user, string roomEmail, string subject, int start, int end)
 		{
 			Appointment meeting = new Appointment(service);
 
 			// Set the properties on the meeting object to create the meeting.
-			meeting.Subject = "Team building exercise";
-			meeting.Body = "Let's learn to really work as a team and then have lunch!";
+			meeting.Subject = subject;
+			meeting.Body = "";
 
 			// TODO: Convert to UTC
 			meeting.Start = DateTime.UtcNow.Date.AddMinutes(start);
 			meeting.End = DateTime.UtcNow.Date.AddMinutes(end);
 
-			meeting.Location = roomEmail;//"Conference Room 12";
+			meeting.Location = subject;
 			meeting.RequiredAttendees.Add(roomEmail);
 			meeting.RequiredAttendees.Add(user.Email);
 			//meeting.OptionalAttendees.Add("Magdalena@contoso.com");

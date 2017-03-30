@@ -16,7 +16,7 @@
 			</tr>
 		</table>
 
-		<button type="button" class="btn-book blue-button" onclick="BookNow('@Model.Email')">Book Now</button>
+		<button type="button" class="btn-book blue-button" onclick="BookNow('@Model.Email', '@Model.Name')">Book Now</button>
 		<button type="button" class="btn-cancel blue-button" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
 	</div>
 </div>
