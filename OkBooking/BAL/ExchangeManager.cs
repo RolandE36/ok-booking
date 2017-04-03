@@ -174,31 +174,36 @@ namespace BAL {
 			return booking;
 		}
 
-		public void BookNow(User user, string roomEmail, string subject, int start, int end)
-		{
-			Appointment meeting = new Appointment(service);
+		public string BookNow(User user, string roomEmail, string subject, int start, int end) {
+			try {
+				Appointment meeting = new Appointment(service);
 
-			// Set the properties on the meeting object to create the meeting.
-			meeting.Subject = subject;
-			meeting.Body = "";
+				// Set the properties on the meeting object to create the meeting.
+				meeting.Subject = subject;
+				meeting.Body = "";
 
-			// TODO: Convert to UTC
-			meeting.Start = DateTime.UtcNow.Date.AddMinutes(start);
-			meeting.End = DateTime.UtcNow.Date.AddMinutes(end);
+				// TODO: Convert to UTC
+				meeting.Start = DateTime.UtcNow.Date.AddMinutes(start);
+				meeting.End = DateTime.UtcNow.Date.AddMinutes(end);
 
-			meeting.Location = subject;
-			meeting.RequiredAttendees.Add(roomEmail);
-			meeting.RequiredAttendees.Add(user.Email);
-			//meeting.OptionalAttendees.Add("Magdalena@contoso.com");
-			meeting.ReminderMinutesBeforeStart = 15;
+				meeting.Location = subject;
+				meeting.RequiredAttendees.Add(roomEmail);
+				meeting.RequiredAttendees.Add(user.Email);
+				//meeting.OptionalAttendees.Add("Magdalena@contoso.com");
+				meeting.ReminderMinutesBeforeStart = 15;
 
-			// Save the meeting to the Calendar folder and send the meeting request.
-			meeting.Save(SendInvitationsMode.SendToAllAndSaveCopy);
+				// Save the meeting to the Calendar folder and send the meeting request.
+				meeting.Save(SendInvitationsMode.SendToAllAndSaveCopy);
 
-			// TODO: Check it later:
-			// Verify that the meeting was created.
-			// Item item = Item.Bind(service, meeting.Id, new PropertySet(ItemSchema.Subject));
-			// Console.WriteLine("\nMeeting created: " + item.Subject + "\n");
+				// TODO: Check it later:
+				// Verify that the meeting was created.
+				// Item item = Item.Bind(service, meeting.Id, new PropertySet(ItemSchema.Subject));
+				// Console.WriteLine("\nMeeting created: " + item.Subject + "\n");
+
+				return meeting.Subject + "was reserved successfully.";
+			} catch {
+				return "Oops, something went wrong. Please try again.";
+			}
 		}
 
 		/// <summary>

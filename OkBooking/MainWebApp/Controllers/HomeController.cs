@@ -69,9 +69,9 @@ namespace MainWebApp.Controllers {
 			return PartialView("_Booking", Manager.GetBooking(name, email, startAvailableTime, endAvailableTime));
 		}
 
-		public void BookNow(string email, string subject, int start, int end)
+		public string BookNow(string email, string subject, int start, int end)
 		{
-			Manager.BookNow(CurrentUser, email, subject, start, end);
+			return Manager.BookNow(CurrentUser, email, subject, start, end);
 		}
 
 		public bool ToggleFavouriteOffice(string email)

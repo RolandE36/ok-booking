@@ -138,9 +138,8 @@ function BookNow(email, name) {
 		},
 		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
-	}).done(function (result) {
-		// TODO: Add more detailed message and handle errors.
-		alert('Booking completed!');
+	}).done(function (msg) {
+		alert(msg);
 	});
 }
 
