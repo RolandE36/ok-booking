@@ -43,13 +43,19 @@ function CheckIsUserAlreadyAuthorized() {
 	});
 }
 
+// Show progress and hide menu
+function ShowProgress() {
+	$(".progress").show(); 
+	$('.window').removeClass('open-menu');
+}
+
 // Show list of available offices
 function ShowOffices() {
-	if($('.window').hasClass('open-menu')) return;
-
 	$.ajax({
 		type: "POST",
-		url: "/Home/GetOffices"
+		url: "/Home/GetOffices",
+		beforeSend: ShowProgress,
+		complete: function () { $(".progress").hide(); }
 	}).done(function (result) {
 		$('.view').html(result);
 		setTimeout(function () { $('.view').addClass('active'); }, 100);
@@ -84,7 +90,7 @@ function ShowRooms(email) {
 		data: {
 			email: email
 		},
-		beforeSend: function () { $(".progress").show(); },
+		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
 	}).done(function (result) {
 		$('.view').html(result);
@@ -130,7 +136,7 @@ function BookNow(email, name) {
 			start: stHours * 60 + stMin,
 			end: endHours * 60 + endMin
 		},
-		beforeSend: function () { $(".progress").show(); },
+		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
 	}).done(function (result) {
 		// TODO: Add more detailed message and handle errors.
