@@ -65,11 +65,29 @@ function ShowOffices() {
 function ToggleFavouriteOffice(email) {
 	if ($('.window').hasClass('open-menu')) return;
 
-	$(this.event.srcElement).toggleClass("fav-office-star-active");
+	$(this.event.srcElement).toggleClass("fav-star-active");
 
 	$.ajax({
 		type: "POST",
 		url: "/Home/ToggleFavouriteOffice",
+		data: {
+			email: email
+		}
+	}).done(function (result) {
+	});
+
+	this.event.preventDefault();
+	this.event.stopPropagation();
+}
+
+function ToggleFavouriteRoom(email) {
+	if ($('.window').hasClass('open-menu')) return;
+
+	$(this.event.srcElement).toggleClass("fav-star-active");
+
+	$.ajax({
+		type: "POST",
+		url: "/Home/ToggleFavouriteRoom",
 		data: {
 			email: email
 		}

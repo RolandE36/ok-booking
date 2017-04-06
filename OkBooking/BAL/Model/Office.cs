@@ -9,6 +9,5 @@ namespace BAL.Model {
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public bool IsFavourite { get; set; }
-		public string CssClass { get; set; }
 	}
 }

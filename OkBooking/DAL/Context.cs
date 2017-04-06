@@ -21,5 +21,6 @@ namespace DAL
 
 		public DbSet<User> Users { get; set; }
 		public DbSet<Offices> FavouriteOffices { get; set; }
+		public DbSet<Room> FavouriteRooms { get; set; }
 	}
 }

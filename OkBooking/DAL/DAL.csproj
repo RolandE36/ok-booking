@@ -66,8 +66,13 @@
     <Compile Include="Migrations\201701311543284_initial.Designer.cs">
       <DependentUpon>201701311543284_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704060830550_added-fav-room.cs" />
+    <Compile Include="Migrations\201704060830550_added-fav-room.Designer.cs">
+      <DependentUpon>201704060830550_added-fav-room.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Office.cs" />
+    <Compile Include="Model\Room.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -82,6 +87,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201701311543284_initial.resx">
       <DependentUpon>201701311543284_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704060830550_added-fav-room.resx">
+      <DependentUpon>201704060830550_added-fav-room.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

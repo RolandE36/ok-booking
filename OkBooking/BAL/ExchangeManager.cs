@@ -67,8 +67,7 @@ namespace BAL {
 				offices.Add(new Model.Office() {
 					Email = ssAddress.Address,
 					Name = name,
-					IsFavourite = isFavourite,
-					CssClass = isFavourite ? "fav-office-star-active" : ""
+					IsFavourite = isFavourite
 				});
 			}
 
@@ -80,12 +79,12 @@ namespace BAL {
 		/// </summary>
 		/// <param name="email">Office email</param>
 		/// <returns></returns>
-		public List<Room> GetRooms(string email) {
+		public List<RoomDTO> GetRooms(string email) {
 
 			var emailAddress = new EmailAddress(email);
 			var roomsList = service.GetRooms(emailAddress);
 
-			List<Room> rooms = new List<Room>();
+			List<RoomDTO> rooms = new List<RoomDTO>();
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
 
@@ -151,7 +150,7 @@ namespace BAL {
 				// We can't show 00:00 on UI. 
 				if (roomEmptyEndTime == TOTAL_MINUTES) roomEmptyEndTime--;
 
-				rooms.Add(new Room() {
+				rooms.Add(new RoomDTO() {
 					Name = room.Name,
 					Email = room.Address,
 					MessageFreeTime = message,
@@ -263,6 +262,46 @@ namespace BAL {
 				dbContext.SaveChanges();
 				return true;
 			} catch (Exception ex) {
+				return false;
+			}
+		}
+
+		private DAL.Model.Room GetRoom(string roomEmail)
+		{
+			// get office from db
+			var room = dbContext.FavouriteRooms.FirstOrDefault(e => e.Email == roomEmail);
+
+			// if office not exists
+			if (room == null)
+			{
+				// than create new office
+				room = new DAL.Model.Room() { Email = roomEmail };
+				dbContext.FavouriteRooms.Add(room);
+				dbContext.SaveChanges();
+			}
+
+			// return created or existing office
+			return room;
+		}
+
+		public bool ToggleFavouriteRoom(string userEmail, string roomEmail)
+		{
+			try
+			{
+				var room = GetRoom(roomEmail);
+				var user = GetUser(userEmail);
+				if (!user.FavouriteRooms.Contains(room))
+				{
+					user.FavouriteRooms.Add(room);
+				}
+				else {
+					user.FavouriteRooms.Remove(room);
+				}
+				dbContext.SaveChanges();
+				return true;
+			}
+			catch (Exception ex)
+			{
 				return false;
 			}
 		}

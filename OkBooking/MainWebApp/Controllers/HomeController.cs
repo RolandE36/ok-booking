@@ -78,5 +78,10 @@ namespace MainWebApp.Controllers {
 		{
 			return Manager.ToggleFavouriteOffice(CurrentUser.Email, email);
 		}
+
+		public bool ToggleFavouriteRoom(string email)
+		{
+			return Manager.ToggleFavouriteRoom(CurrentUser.Email, email);
+		}
 	}
 }
