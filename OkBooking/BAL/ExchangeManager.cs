@@ -74,7 +74,7 @@ namespace BAL {
 				});
 			}
 
-			return offices.OrderBy(e => e.Name).ToList();
+			return offices.OrderBy(e => !e.IsFavourite).ThenBy(e => e.Name).ToList();
 		}
 
 		/// <summary>
@@ -101,7 +101,6 @@ namespace BAL {
 				var room = roomsList[i];
 				var item = schedule.AttendeesAvailability[i];
 				var message = "";
-				var bookNow = true;
 				bool[] reservedTime = new bool[TOTAL_MINUTES];
 
 				// go through each meeting (event) in the room and check room availability
@@ -148,7 +147,7 @@ namespace BAL {
 				timeSpan = new TimeSpan(roomEmptyEndTime / 60, roomEmptyEndTime % 60, 0);
 				message += timeSpan.ToString(@"hh\:mm");
 				// if all rooms are booked
-				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, all meeting rooms in your location have been reserved for today.";
+				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, this meeting room have been reserved for today.";
 
 				// We can't show 00:00 on UI. 
 				if (roomEmptyEndTime == TOTAL_MINUTES) roomEmptyEndTime--;
@@ -157,13 +156,13 @@ namespace BAL {
 					Name = room.Name,
 					Email = room.Address,
 					MessageFreeTime = message,
-					BookNow = bookNow,
 					StartAvailableTime = roomEmptyStartTime,
 					EndAvailableTime = roomEmptyEndTime,
 					IsFavourite = user.FavouriteRooms.FirstOrDefault(e => e.Email == room.Address) != null
 				});
 			}
-			return rooms.OrderBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
+
+			return rooms.OrderBy(e => !e.IsFavourite).ThenBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
 		}
 
 		public BookingDTO GetBooking(string name, string email, int startAvailableTime, int endAvailableTime)

@@ -624,11 +624,26 @@ body {
 
 .fav-star {
 	float: right;
+	font-size: 3rem;
+	color: darkgray;
+}
+
+.offices .fav-star {
 	position: relative;
 	top: -50%;
 	left: 5%;
-	font-size: 3rem;
-	color: darkgray;
+}
+
+.rooms .fav-star {
+	position: absolute;
+	top: 15%;
+	right: 5%;
+}
+
+@media only screen and (max-width: 768px) {
+	.fav-star {
+		font-size: 4rem;
+	}
 }
 
 .fav-star-active,
