@@ -622,7 +622,7 @@ body {
 
 /* End Menu Section */
 
-.fav-office-star {
+.fav-star {
 	float: right;
 	position: relative;
 	top: -50%;
@@ -631,8 +631,8 @@ body {
 	color: darkgray;
 }
 
-.fav-office-star-active,
-.fav-office-star:hover {
+.fav-star-active,
+.fav-star:hover {
 	color: gold;
 }
 

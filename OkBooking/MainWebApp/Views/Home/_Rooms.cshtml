@@ -1,4 +1,4 @@
-﻿@model List<BAL.Model.Room>
+﻿@model List<BAL.Model.RoomDTO>
 
 <div class="rooms">
 	@Html.Partial("_Header", "Reserve Now")
@@ -10,9 +10,7 @@
 				<p class="list-item-info">
 					<span class="list-item-time">@room.MessageFreeTime</span>
 				</p>
-				@if (room.BookNow) {
-					// TODO: 
-				}
+				<div class="fav-star @(room.IsFavourite ? "fav-star-active" : "")" onclick="ToggleFavouriteRoom('@room.Email')">&#9734;</div>
 			</div>
 			
 		}
