@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BAL;
+using BAL.Model;
 using DAL.Model;
 
 namespace MainWebApp.Controllers {
@@ -77,6 +78,14 @@ namespace MainWebApp.Controllers {
 		public bool ToggleFavouriteOffice(string email)
 		{
 			return Manager.ToggleFavouriteOffice(CurrentUser.Email, email);
+		}
+
+		public PartialViewResult GetSettings()
+		{
+			var settings = new SettingsDTO() {
+				TimeZones = TimeZoneInfo.GetSystemTimeZones()
+			};
+			return PartialView("_Settings", settings);
 		}
 	}
 }

@@ -344,6 +344,7 @@
     <Content Include="Views\Home\_Header.cshtml" />
     <Content Include="Views\Home\_Rooms.cshtml" />
     <Content Include="Views\Home\_Booking.cshtml" />
+    <Content Include="Views\Home\_Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

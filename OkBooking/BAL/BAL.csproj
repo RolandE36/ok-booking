@@ -65,6 +65,7 @@
     <Compile Include="Model\BookingDTO.cs" />
     <Compile Include="Model\Office.cs" />
     <Compile Include="Model\Room.cs" />
+    <Compile Include="Model\SettingsDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

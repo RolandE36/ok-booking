@@ -4,6 +4,9 @@ $(document).ready(function () {
 	BindEvents();
 	ShowLatestSuccessfulLogin();
 	CheckIsUserAlreadyAuthorized();
+
+	// Set current device time zone settings
+	$.cookie('TIMEZONEOFFSET', new Date().getTimezoneOffset());
 });
 
 // Bind default functions for all inputs, buttons, fields, etc...
@@ -179,4 +182,17 @@ function AuthorizationCompleted(isSuccessfully) {
 		$(".button-submit").removeClass("processing");
 	}
 	animating = false;
+}
+
+// show settings page
+function ShowSettings() {
+	$.ajax({
+		type: "POST",
+		url: "/Home/GetSettings",
+		beforeSend: ShowProgress,
+		complete: function () { $(".progress").hide(); }
+	}).done(function (result) {
+		$('.view').html(result);
+		setTimeout(function () { $('.view').addClass('active'); }, 100);
+	});
 }

@@ -16,10 +16,13 @@ namespace BAL {
 		private const int TOTAL_MINUTES = 24 * 60;
 
 		private ExchangeService service;
-		private Context dbContext = new Context();
+		private readonly Context dbContext = new Context();
 
-		public ExchangeManager(ExchangeService service) {
+		private readonly int UserTimeZoneOffset;
+
+		public ExchangeManager(ExchangeService service, int timeOffset) {
 			this.service = service;
+			this.UserTimeZoneOffset = timeOffset;
 		}
 
 		/// <summary>
@@ -89,9 +92,7 @@ namespace BAL {
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
 
-			string userZoneId = "FLE Standard Time"; // +2 Kyiv
-			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
-			DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, userZone);
+			DateTime userTimeNow = GetClientTime(DateTime.UtcNow);
 			TimeSpan timeSpan;
 
 			// go through all meeting rooms
@@ -106,8 +107,8 @@ namespace BAL {
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var meeting in item.CalendarEvents) {
 						// set time zone
-						DateTime meetingStartTime = TimeZoneInfo.ConvertTime(meeting.StartTime, userZone);
-						DateTime meetingEndTime = TimeZoneInfo.ConvertTime(meeting.EndTime, userZone);
+						DateTime meetingStartTime = GetClientTime(meeting.StartTime);
+						DateTime meetingEndTime = GetClientTime(meeting.EndTime);
 
 						// get minute ranges
 						int startMinute = meetingStartTime.Hour * 60 + meetingStartTime.Minute;
@@ -266,5 +267,17 @@ namespace BAL {
 				return false;
 			}
 		}
+
+		#region Helpers
+
+		private DateTime GetClientTime(DateTime date)
+		{
+			//string userZoneId = "FLE Standard Time"; // +2 Kyiv
+			//TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
+			//DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, userZone);
+
+			return date.AddMinutes(+1 * UserTimeZoneOffset); // TODO: not working. Probably +1. 
+		}
+		#endregion
 	}
 }

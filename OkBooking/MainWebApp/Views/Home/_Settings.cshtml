@@ -1,0 +1,9 @@
+﻿@model BAL.Model.SettingsDTO
+
+<h4>Choose your time zone:</h4>
+<select>
+	<option value="DEFAULT" @("DEFAULT" == Model.UserTimeZone ? "selected" : "")> Current Device Time Zone</option>
+	@foreach (TimeZoneInfo timeZoneInfo in Model.TimeZones) {
+		<option value="@timeZoneInfo.Id" @("DEFAULT" == Model.UserTimeZone ? "selected" : "")>@timeZoneInfo.DisplayName</option>
+	}
+</select>

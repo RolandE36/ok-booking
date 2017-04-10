@@ -27,7 +27,11 @@ namespace MainWebApp.Controllers {
 
 		protected ExchangeManager Manager {
 			get {
-				if (manager == null) { manager = new ExchangeManager(Exchange); }
+				if (manager == null) {
+					var httpCookie = HttpContext.Request.Cookies["TIMEZONEOFFSET"];
+					int timeOffset = httpCookie != null ? int.Parse(httpCookie.Value) : 0;
+					manager = new ExchangeManager(Exchange, timeOffset);
+				}
 				return manager;
 			}
 		}
