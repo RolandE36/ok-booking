@@ -77,16 +77,18 @@ namespace BAL {
 		/// <summary>
 		/// Get roms list for specified office
 		/// </summary>
-		/// <param name="email">Office email</param>
+		/// <param name="roomEmail">Office email</param>
+		/// <param name="userEmail">Current user email</param>
 		/// <returns></returns>
-		public List<RoomDTO> GetRooms(string email) {
+		public List<RoomDTO> GetRooms(string roomEmail, string userEmail) {
 
-			var emailAddress = new EmailAddress(email);
+			var emailAddress = new EmailAddress(roomEmail);
 			var roomsList = service.GetRooms(emailAddress);
 
 			List<RoomDTO> rooms = new List<RoomDTO>();
 			// get schedule for each room in the office
 			var schedule = GetRoomsSchedule(roomsList);
+			var user = GetUser(userEmail); // current app user
 
 			string userZoneId = "FLE Standard Time"; // +2 Kyiv
 			TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
@@ -156,7 +158,8 @@ namespace BAL {
 					MessageFreeTime = message,
 					BookNow = bookNow,
 					StartAvailableTime = roomEmptyStartTime,
-					EndAvailableTime = roomEmptyEndTime
+					EndAvailableTime = roomEmptyEndTime,
+					IsFavourite = user.FavouriteRooms.FirstOrDefault(e => e.Email == room.Address) != null
 				});
 			}
 			return rooms.OrderBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
