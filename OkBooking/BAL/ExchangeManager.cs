@@ -93,7 +93,7 @@ namespace BAL {
 			var schedule = GetRoomsSchedule(roomsList);
 			var user = GetUser(userEmail); // current app user
 
-			DateTime userTimeNow = GetClientTime(DateTime.UtcNow);
+			DateTime serverTimeNow = DateTime.Now;
 			TimeSpan timeSpan;
 
 			// go through all meeting rooms
@@ -107,12 +107,13 @@ namespace BAL {
 				if (item != null && item.CalendarEvents.Count > 0) {
 					foreach (var meeting in item.CalendarEvents) {
 						// set time zone
-						DateTime meetingStartTime = GetClientTime(meeting.StartTime);
-						DateTime meetingEndTime = GetClientTime(meeting.EndTime);
+						DateTime meetingStartTime = meeting.StartTime;
+						DateTime meetingEndTime = meeting.EndTime;
 
 						// get minute ranges
 						int startMinute = meetingStartTime.Hour * 60 + meetingStartTime.Minute;
 						int endMinute = meetingEndTime.Hour * 60 + meetingEndTime.Minute;
+						if (endMinute == 0) endMinute = TOTAL_MINUTES - 1;
 
 						// mark each minute as reserved
 						for (int minute = startMinute; minute <= endMinute; minute++) {
@@ -120,11 +121,11 @@ namespace BAL {
 						}
 
 						// skip next days
-						if (meeting.StartTime.Day != userTimeNow.Day) break;
+						if (meeting.StartTime.Day != serverTimeNow.Day) break;
 					}
 				}
 
-				int roomEmptyStartTime = userTimeNow.Hour * 60 + userTimeNow.Minute;
+				int roomEmptyStartTime = serverTimeNow.Hour * 60 + serverTimeNow.Minute;
 				if (reservedTime[roomEmptyStartTime] == true) {
 					// if room is reserver now than lets find first empty time
 					
@@ -133,6 +134,7 @@ namespace BAL {
 
 					// Get message
 					timeSpan = new TimeSpan(roomEmptyStartTime / 60, roomEmptyStartTime % 60, 0);
+					timeSpan = ToClientTime(timeSpan);
 					message = timeSpan.ToString(@"hh\:mm");
 				} else {
 					// if room is empty now
@@ -145,6 +147,7 @@ namespace BAL {
 				while (roomEmptyEndTime < TOTAL_MINUTES && reservedTime[roomEmptyEndTime] == false) roomEmptyEndTime++;
 				roomEmptyEndTime--; // 00:00 -> 23:59
 				timeSpan = new TimeSpan(roomEmptyEndTime / 60, roomEmptyEndTime % 60, 0);
+				timeSpan = ToClientTime(timeSpan);
 				message += timeSpan.ToString(@"hh\:mm");
 				// if all rooms are booked
 				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, this meeting room have been reserved for today.";
@@ -156,8 +159,8 @@ namespace BAL {
 					Name = room.Name,
 					Email = room.Address,
 					MessageFreeTime = message,
-					StartAvailableTime = roomEmptyStartTime,
-					EndAvailableTime = roomEmptyEndTime,
+					StartAvailableTime = (int) ToClientTime(roomEmptyStartTime).TotalMinutes,
+					EndAvailableTime = (int)ToClientTime(roomEmptyEndTime).TotalMinutes,
 					IsFavourite = user.FavouriteRooms.FirstOrDefault(e => e.Email == room.Address) != null
 				});
 			}
@@ -184,9 +187,8 @@ namespace BAL {
 				meeting.Subject = subject;
 				meeting.Body = "";
 
-				// TODO: Convert to UTC
-				meeting.Start = DateTime.UtcNow.Date.AddMinutes(start);
-				meeting.End = DateTime.UtcNow.Date.AddMinutes(end);
+				meeting.Start = ToServerTime(start);
+				meeting.End = ToServerTime(end);
 
 				meeting.Location = subject;
 				meeting.RequiredAttendees.Add(roomEmail);
@@ -218,7 +220,7 @@ namespace BAL {
 			AvailabilityOptions meetingOptions = new AvailabilityOptions();
 			meetingOptions.MeetingDuration = 30;
 			meetingOptions.MaximumNonWorkHoursSuggestionsPerDay = 0;
-			meetingOptions.CurrentMeetingTime = DateTime.UtcNow;
+			meetingOptions.CurrentMeetingTime = DateTime.Now;
 
 			foreach (EmailAddress room in rooms) {
 				attendees.Add(new AttendeeInfo() {
@@ -229,8 +231,8 @@ namespace BAL {
 
 			return service.GetUserAvailability(
 										attendees,
-										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)), // TODO: maybe DateTime.Now we should change to current day start
-											AvailabilityData.FreeBusyAndSuggestions,           // TODO: maybe Suggestions not required
+										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)),
+											AvailabilityData.FreeBusyAndSuggestions, // TODO: maybe Suggestions not required
 										meetingOptions);
 		}
 
@@ -312,12 +314,17 @@ namespace BAL {
 
 		#region Helpers
 
-		private DateTime GetClientTime(DateTime date) {
-			//string userZoneId = "FLE Standard Time"; // +2 Kyiv
-			//TimeZoneInfo userZone = TimeZoneInfo.FindSystemTimeZoneById(userZoneId);
-			//DateTime userTimeNow = TimeZoneInfo.ConvertTime(DateTime.Now, userZone);
+		private DateTime ToServerTime(int minutes) {
+			return DateTime.Now.Date.AddMinutes(minutes + DateTimeOffset.Now.Offset.TotalMinutes + UserTimeZoneOffset);
+		}
 
-			return date.AddMinutes(+1 * UserTimeZoneOffset); // TODO: not working. Probably +1. 
+		private TimeSpan ToClientTime(TimeSpan date) {
+			var userOffset = new TimeSpan(0, - UserTimeZoneOffset, 0);
+			return date - DateTimeOffset.Now.Offset + userOffset;
+		}
+
+		private TimeSpan ToClientTime(int minutes) {
+			return ToClientTime(new TimeSpan(minutes / 60, minutes % 60, 0));
 		}
 
 		#endregion
