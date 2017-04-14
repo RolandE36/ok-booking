@@ -31,6 +31,13 @@ namespace MainWebApp.Controllers {
 			}
 		}
 
+		public PartialViewResult LogOut()
+		{
+			Exchange = null;
+			CurrentUser = null;
+			return PartialView("_Login");
+		}
+
 		public string GetError(string email) {
 			try {
 				CurrentUser = Manager.GetUser(email);

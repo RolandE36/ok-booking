@@ -59,10 +59,7 @@ function ShowOffices() {
 		url: "/Home/GetOffices",
 		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
-	}).done(function (result) {
-		$('.view').html(result);
-		setTimeout(function () { $('.view').addClass('active'); }, 100);
-	});
+	}).done(RenderView);
 }
 
 function ToggleFavouriteOffice(email) {
@@ -113,10 +110,7 @@ function ShowRooms(email) {
 		},
 		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
-	}).done(function (result) {
-		$('.view').html(result);
-		setTimeout(function () { $('.view').addClass('active'); }, 100);
-	});
+	}).done(RenderView);
 }
 
 // Show booking page
@@ -132,10 +126,7 @@ function ShowBooking(name, email, startAvailableTime, endAvailableTime) {
 			startAvailableTime: startAvailableTime,
 			endAvailableTime: endAvailableTime
 		}
-	}).done(function (result) {
-		$('.view').html(result);
-		setTimeout(function () { $('.view').addClass('active'); }, 100);
-	});
+	}).done(RenderView);
 }
 
 function BookNow(email, name) {
@@ -202,6 +193,15 @@ function AuthorizationCompleted(isSuccessfully) {
 	animating = false;
 }
 
+function LogOut() {
+	$.ajax({
+		type: "POST",
+		url: "/Home/LogOut",
+		beforeSend: ShowProgress,
+		complete: function () { $(".progress").hide(); }
+	}).done(RenderView);
+}
+
 // show settings page
 function ShowSettings() {
 	$.ajax({
@@ -209,8 +209,11 @@ function ShowSettings() {
 		url: "/Home/GetSettings",
 		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
-	}).done(function (result) {
-		$('.view').html(result);
-		setTimeout(function () { $('.view').addClass('active'); }, 100);
-	});
+	}).done(RenderView);
+}
+
+function RenderView(result) {
+	$('.view').html(result);
+	$('.window').removeClass('open-menu');
+	setTimeout(function () { $('.view').addClass('active'); }, 100); // Trigger animation
 }
