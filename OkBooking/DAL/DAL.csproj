@@ -62,13 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.cs" />
-    <Compile Include="Migrations\201701311543284_initial.cs" />
-    <Compile Include="Migrations\201701311543284_initial.Designer.cs">
-      <DependentUpon>201701311543284_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704060830550_added-fav-room.cs" />
-    <Compile Include="Migrations\201704060830550_added-fav-room.Designer.cs">
-      <DependentUpon>201704060830550_added-fav-room.cs</DependentUpon>
+    <Compile Include="Migrations\201704210950155_db-init.cs" />
+    <Compile Include="Migrations\201704210950155_db-init.Designer.cs">
+      <DependentUpon>201704210950155_db-init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Office.cs" />
@@ -85,11 +81,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701311543284_initial.resx">
-      <DependentUpon>201701311543284_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704060830550_added-fav-room.resx">
-      <DependentUpon>201704060830550_added-fav-room.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704210950155_db-init.resx">
+      <DependentUpon>201704210950155_db-init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -20,7 +20,7 @@ namespace DAL
 		}
 
 		public DbSet<User> Users { get; set; }
-		public DbSet<Offices> Offices { get; set; }
+		public DbSet<Office> Offices { get; set; }
 		public DbSet<Room> FavouriteRooms { get; set; }
 	}
 }

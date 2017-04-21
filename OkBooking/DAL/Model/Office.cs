@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL.Model
 {
-	public class Offices
+	public class Office
 	{
-		public Offices()
+		public Office()
 		{
 			FavouriteUsers = new HashSet<User>();
 		}

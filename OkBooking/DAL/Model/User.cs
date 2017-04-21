@@ -15,7 +15,7 @@ namespace DAL.Model
 		[Key]
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public Offices FavouriteOffice { get; set; }
+		public Office FavouriteOffice { get; set; }
 		public virtual ICollection<Room> FavouriteRooms { get; set; }
 	}
 }

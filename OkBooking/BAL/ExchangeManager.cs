@@ -237,7 +237,7 @@ namespace BAL {
 										meetingOptions);
 		}
 
-		private DAL.Model.Offices GetOffice(string officeEmail)
+		private DAL.Model.Office GetOffice(string officeEmail)
 		{
 			// get office from db
 			var office = dbContext.Offices.FirstOrDefault(e => e.Email == officeEmail);
@@ -246,7 +246,7 @@ namespace BAL {
 			if (office == null)
 			{
 				// than create new office
-				office = new DAL.Model.Offices() { Email = officeEmail };
+				office = new DAL.Model.Office() { Email = officeEmail };
 				dbContext.Offices.Add(office);
 				dbContext.SaveChanges();
 			}
