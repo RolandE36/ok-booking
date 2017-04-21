@@ -82,9 +82,9 @@ namespace MainWebApp.Controllers {
 			return Manager.BookNow(CurrentUser, email, subject, start, end);
 		}
 
-		public bool ToggleFavouriteOffice(string email)
+		public bool SetFavouriteOffice(string email)
 		{
-			return Manager.ToggleFavouriteOffice(CurrentUser.Email, email);
+			return Manager.SetFavouriteOffice(CurrentUser.Email, email);
 		}
 
 		public bool ToggleFavouriteRoom(string email)

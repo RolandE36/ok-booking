@@ -9,14 +9,13 @@ namespace DAL.Model
 {
 	public class User {
 		public User() {
-			FavouriteOffices = new HashSet<Offices>();
 			FavouriteRooms = new HashSet<Room>();
 		}
 
 		[Key]
 		public int Id { get; set; }
 		public string Email { get; set; }
-		public virtual ICollection<Offices> FavouriteOffices { get; set; }
+		public Offices FavouriteOffice { get; set; }
 		public virtual ICollection<Room> FavouriteRooms { get; set; }
 	}
 }

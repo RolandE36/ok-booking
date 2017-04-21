@@ -65,7 +65,8 @@ namespace BAL {
 			foreach (EmailAddress ssAddress in roomLists) {
 				//"Chernivtsi Office Meeting Rooms List"
 				string name = ssAddress.Name.Replace("Meeting Rooms List", "").Trim();
-				bool isFavourite = user.FavouriteOffices.FirstOrDefault(e => e.Email == ssAddress.Address) != null;
+				bool isFavourite = true;
+				if (user.FavouriteOffice == null || user.FavouriteOffice.Email != ssAddress.Address) isFavourite = false;
 
 				offices.Add(new Model.Office() {
 					Email = ssAddress.Address,
@@ -239,31 +240,27 @@ namespace BAL {
 		private DAL.Model.Offices GetOffice(string officeEmail)
 		{
 			// get office from db
-			var office = dbContext.FavouriteOffices.FirstOrDefault(e => e.Email == officeEmail);
+			var office = dbContext.Offices.FirstOrDefault(e => e.Email == officeEmail);
 
 			// if office not exists
 			if (office == null)
 			{
 				// than create new office
 				office = new DAL.Model.Offices() { Email = officeEmail };
-				dbContext.FavouriteOffices.Add(office);
+				dbContext.Offices.Add(office);
 				dbContext.SaveChanges();
 			}
 
 			// return created or existing office
 			return office;
 		}
-
-		public bool ToggleFavouriteOffice(string userEmail, string officeEmail) {
+		
+		public bool SetFavouriteOffice(string userEmail, string officeEmail) {
 			try
 			{
 				var office = GetOffice(officeEmail);
 				var user = GetUser(userEmail);
-				if (!user.FavouriteOffices.Contains(office)) {
-					user.FavouriteOffices.Add(office);
-				} else {
-					user.FavouriteOffices.Remove(office);
-				}
+				user.FavouriteOffice = office;
 				dbContext.SaveChanges();
 				return true;
 			} catch (Exception ex) {

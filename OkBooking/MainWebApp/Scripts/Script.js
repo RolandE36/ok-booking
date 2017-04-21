@@ -62,14 +62,14 @@ function ShowOffices() {
 	}).done(RenderView);
 }
 
-function ToggleFavouriteOffice(email) {
+function SetFavouriteOffice(email) {
 	if ($('.window').hasClass('open-menu')) return;
 
 	$(this.event.srcElement).toggleClass("fav-star-active");
 
 	$.ajax({
 		type: "POST",
-		url: "/Home/ToggleFavouriteOffice",
+		url: "/Home/SetFavouriteOffice",
 		data: {
 			email: email
 		}
