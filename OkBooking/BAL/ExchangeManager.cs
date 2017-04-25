@@ -260,7 +260,11 @@ namespace BAL {
 			{
 				var office = GetOffice(officeEmail);
 				var user = GetUser(userEmail);
-				user.FavouriteOffice = office;
+				if (user.FavouriteOffice == office) {
+					user.FavouriteOffice = null;
+				} else {
+					user.FavouriteOffice = office;
+				}
 				dbContext.SaveChanges();
 				return true;
 			} catch (Exception ex) {

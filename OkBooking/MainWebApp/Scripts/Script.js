@@ -62,10 +62,22 @@ function ShowOffices() {
 	}).done(RenderView);
 }
 
+// Show offices is no favorite office selected
+// In other case show all romms for favorite office
+function ShowOfficesOrRooms() {
+	$.ajax({
+		type: "POST",
+		url: "/Home/GetOfficesOrRooms",
+		beforeSend: ShowProgress,
+		complete: function () { $(".progress").hide(); }
+	}).done(RenderView);
+}
+
 function SetFavouriteOffice(email) {
 	if ($('.window').hasClass('open-menu')) return;
 
 	$(this.event.srcElement).toggleClass("fav-star-active");
+	$('.fav-star-active').not(this.event.srcElement).removeClass("fav-star-active");
 
 	$.ajax({
 		type: "POST",
@@ -183,7 +195,7 @@ function AuthorizationCompleted(isSuccessfully) {
 		$.cookie('email', $('#email').val());
 		$.cookie('cbRememberMe', $('#cbRememberMe').is(':checked'));
 		$('#password').val('');
-		ShowOffices();
+		ShowOfficesOrRooms();
 	} else {
 		// actions if any errors appear during authorization:
 		$(".login-github").hide(100);

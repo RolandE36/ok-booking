@@ -56,10 +56,22 @@ namespace MainWebApp.Controllers {
 		}
 
 		/// <summary>
-		/// Return partial HTML for offices view
+		/// Return partial HTML for offices
 		/// </summary>
 		public PartialViewResult GetOffices() {
 			return PartialView("_Offices", Manager.GetOffices(CurrentUser.Email));
+		}
+
+		/// <summary>
+		/// Return partial HTML for offices is no favorite office selected
+		/// In other case return romms for favorite office
+		/// </summary>
+		public PartialViewResult GetOfficesOrRooms() {
+			if (Manager.GetUser(CurrentUser.Email).FavouriteOffice == null) {
+				return GetOffices();
+			} else {
+				return GetRooms(Manager.GetUser(CurrentUser.Email).FavouriteOffice.Email);
+			}
 		}
 
 		/// <summary>

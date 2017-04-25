@@ -144,6 +144,9 @@ body {
   background: transparent;
   color: #FDFCFD;
 }
+#email::-webkit-input-placeholder, #password::-webkit-input-placeholder {
+	color: rgba(255,255,255,0.6);
+}
 
 #cbRememberMe {
 	display: inline;
