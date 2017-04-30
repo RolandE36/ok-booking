@@ -70,7 +70,17 @@ function ShowOfficesOrRooms() {
 		url: "/Home/GetOfficesOrRooms",
 		beforeSend: ShowProgress,
 		complete: function () { $(".progress").hide(); }
-	}).done(RenderView);
+	}).done(function (result) {
+		if ($(".button-submit").length > 0) {
+			$('#password').val('');
+			$(".login-error").hide(100);
+			$(".login-github").delay(100).show(100);
+			$(".button-submit").addClass("success");
+			setTimeout(function() { RenderView(result); }, 400);
+		} else {
+			RenderView(result);
+		}
+	});
 }
 
 function SetFavouriteOffice(email) {
@@ -189,12 +199,8 @@ function Authorization() {
 function AuthorizationCompleted(isSuccessfully) {
 	if (isSuccessfully) {
 		// actions if user authorized successfully:
-		$(".login-error").hide(100);
-		$(".login-github").delay(100).show(100);
-		$(".button-submit").addClass("success");
 		$.cookie('email', $('#email').val());
 		$.cookie('cbRememberMe', $('#cbRememberMe').is(':checked'));
-		$('#password').val('');
 		ShowOfficesOrRooms();
 	} else {
 		// actions if any errors appear during authorization:
