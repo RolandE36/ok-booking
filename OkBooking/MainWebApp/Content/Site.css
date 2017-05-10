@@ -420,8 +420,12 @@ body {
   font-size: 1.6rem;
 }
 .list-item-info {
-  color: #949498;
-  font-size: 1.3rem;
+	color: #949498;
+	font-size: 1.3rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 90%;
 }
 /*
 .app__logout {

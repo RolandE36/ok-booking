@@ -12,5 +12,6 @@ namespace BAL.Model
 		public TimeSpan StartTime { get; set; }
 		public TimeSpan EndTime { get; set; }
 		public string Email { get; set; }
+		public List<RoomAvalaibleTimeDTO> AvalaibleTime = new List<RoomAvalaibleTimeDTO>();
 	}
 }

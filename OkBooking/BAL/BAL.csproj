@@ -64,6 +64,7 @@
     <Compile Include="ExchangeManager.cs" />
     <Compile Include="Model\BookingDTO.cs" />
     <Compile Include="Model\Office.cs" />
+    <Compile Include="Model\RoomAvalaibleTimeDTO.cs" />
     <Compile Include="Model\SettingsDTO.cs" />
     <Compile Include="Model\RoomDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -101,8 +101,13 @@ namespace BAL {
 			for (int i = 0; i < roomsList.Count; i++) {
 				var room = roomsList[i];
 				var item = schedule.AttendeesAvailability[i];
-				var message = "";
 				bool[] reservedTime = new bool[TOTAL_MINUTES];
+
+				var currentRoom = new RoomDTO() {
+					Name = room.Name,
+					Email = room.Address,
+					IsFavourite = user.FavouriteRooms.FirstOrDefault(e => e.Email == room.Address) != null
+				};
 
 				// go through each meeting (event) in the room and check room availability
 				if (item != null && item.CalendarEvents.Count > 0) {
@@ -126,56 +131,55 @@ namespace BAL {
 					}
 				}
 
-				int roomEmptyStartTime = serverTimeNow.Hour * 60 + serverTimeNow.Minute;
-				if (reservedTime[roomEmptyStartTime] == true) {
-					// if room is reserver now than lets find first empty time
-					
-					// while not array end and room is reserved
-					while (roomEmptyStartTime < TOTAL_MINUTES && reservedTime[roomEmptyStartTime] == true) roomEmptyStartTime++;
+				int timePointer = serverTimeNow.Hour * 60 + serverTimeNow.Minute;
+				int timeNow = serverTimeNow.Hour * 60 + serverTimeNow.Minute;
 
-					// Get message
-					timeSpan = new TimeSpan(roomEmptyStartTime / 60, roomEmptyStartTime % 60, 0);
-					timeSpan = ToClientTime(timeSpan);
-					message = timeSpan.ToString(@"hh\:mm");
-				} else {
-					// if room is empty now
-					message = "now";
-				}
+				// Find all available times 
+				do {
+					// skip reserved minutes
+					while (timePointer < TOTAL_MINUTES && reservedTime[timePointer] == true) timePointer++;
+					var startAvailableTime = timePointer;
 
-				message += " - ";
-				// finding end of free time
-				int roomEmptyEndTime = roomEmptyStartTime + 1;
-				while (roomEmptyEndTime < TOTAL_MINUTES && reservedTime[roomEmptyEndTime] == false) roomEmptyEndTime++;
-				roomEmptyEndTime--; // 00:00 -> 23:59
-				timeSpan = new TimeSpan(roomEmptyEndTime / 60, roomEmptyEndTime % 60, 0);
-				timeSpan = ToClientTime(timeSpan);
-				message += timeSpan.ToString(@"hh\:mm");
-				// if all rooms are booked
-				if (roomEmptyStartTime == TOTAL_MINUTES) message = "Sorry, this meeting room have been reserved for today.";
+					timePointer++;
 
-				// We can't show 00:00 on UI. 
-				if (roomEmptyEndTime == TOTAL_MINUTES) roomEmptyEndTime--;
+					// skip empty minutes
+					while (timePointer < TOTAL_MINUTES && reservedTime[timePointer] == false) timePointer++;
+					var endAvailableTime = timePointer - 1; // 00:00 -> 23:59 We can't show 00:00 on UI. 
 
-				rooms.Add(new RoomDTO() {
-					Name = room.Name,
-					Email = room.Address,
-					MessageFreeTime = message,
-					StartAvailableTime = (int) ToClientTime(roomEmptyStartTime).TotalMinutes,
-					EndAvailableTime = (int)ToClientTime(roomEmptyEndTime).TotalMinutes,
-					IsFavourite = user.FavouriteRooms.FirstOrDefault(e => e.Email == room.Address) != null
-				});
+					var message = startAvailableTime == timeNow ? "now" : GetClientTimeMessage(startAvailableTime);
+					message += " - ";
+					message += GetClientTimeMessage(endAvailableTime);
+
+					currentRoom.AvalaibleTime.Add(new RoomAvalaibleTimeDTO() {
+						StartTime = (int) ToClientTime(startAvailableTime).TotalMinutes,
+						EndTime = (int) ToClientTime(endAvailableTime).TotalMinutes,
+						Message = message
+					});
+
+					timePointer++;
+				} while (timePointer < TOTAL_MINUTES);
+				rooms.Add(currentRoom);
 			}
 
 			return rooms.OrderBy(e => !e.IsFavourite).ThenBy(e => e.StartAvailableTime).ThenBy(e => e.Name).ToList();
 		}
 
-		public BookingDTO GetBooking(string name, string email, int startAvailableTime, int endAvailableTime)
+		public BookingDTO GetBooking(string name, string email, int startAvailableTime, int endAvailableTime, List<RoomDTO> officeSchedule = null)
 		{
 			var booking = new BookingDTO();
 			booking.Name = name;
 			booking.Email = email;
 			booking.StartTime = TimeSpan.FromMinutes(startAvailableTime);
 			booking.EndTime = TimeSpan.FromMinutes(endAvailableTime);
+			booking.AvalaibleTime = new List<RoomAvalaibleTimeDTO>();
+
+			if (officeSchedule != null) {
+				var room = officeSchedule.FirstOrDefault(e => e.Email == email);
+				if (room != null && room.AvalaibleTime.Count > 1) {
+					room.AvalaibleTime.RemoveAt(0);
+					booking.AvalaibleTime = room.AvalaibleTime;
+				}
+			}
 
 			return booking;
 		}
@@ -205,7 +209,7 @@ namespace BAL {
 				// Item item = Item.Bind(service, meeting.Id, new PropertySet(ItemSchema.Subject));
 				// Console.WriteLine("\nMeeting created: " + item.Subject + "\n");
 
-				return meeting.Subject + "was reserved successfully.";
+				return meeting.Subject + " was reserved successfully.";
 			} catch {
 				return "Oops, something went wrong. Please try again.";
 			}
@@ -326,6 +330,12 @@ namespace BAL {
 
 		private TimeSpan ToClientTime(int minutes) {
 			return ToClientTime(new TimeSpan(minutes / 60, minutes % 60, 0));
+		}
+
+		private string GetClientTimeMessage(int minutes) {
+			var timeSpan = new TimeSpan(minutes/60, minutes%60, 0);
+			timeSpan = ToClientTime(timeSpan);
+			return timeSpan.ToString(@"hh\:mm");
 		}
 
 		#endregion

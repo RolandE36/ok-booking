@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using BAL;
 using DAL.Model;
+using BAL.Model;
 
 namespace MainWebApp.Controllers {
 	public class BaseController : Controller
@@ -42,6 +43,14 @@ namespace MainWebApp.Controllers {
 		protected User CurrentUser {
 			get { return (User) Session["USER"]; }
 			set { Session["USER"] = value; }
+		}
+
+		/// <summary>
+		/// Schedule for the last selected office
+		/// </summary>
+		protected List<RoomDTO> OfficeSchedule {
+			get { return (List<RoomDTO>) Session["LAST_SELECTED_OFFICE_SCHEDULE"]; }
+			set { Session["LAST_SELECTED_OFFICE_SCHEDULE"] = value; }
 		}
 	}
 }

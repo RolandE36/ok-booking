@@ -10,5 +10,16 @@
 
 		<button type="button" class="btn-book blue-button button" onclick="BookNow('@Model.Email', '@Model.Name')">Book Now</button>
 		<button type="button" class="btn-cancel blue-button button" onclick="ShowRooms($.cookie('LastSelectedOffice'))">Cancel</button>
+
+		@if (Model.AvalaibleTime.Count > 0)
+		{
+			<span>Room is also available at: </span>
+			<ul>
+				@foreach (var avTime in Model.AvalaibleTime)
+				{
+					<li>@avTime.Message</li>
+				}
+			</ul>
+		}
 	</div>
 </div>

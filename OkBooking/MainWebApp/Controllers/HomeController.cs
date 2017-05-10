@@ -81,12 +81,13 @@ namespace MainWebApp.Controllers {
 		public PartialViewResult GetRooms(string email)
 		{
 			Response.Cookies.Add(new HttpCookie("LastSelectedOffice", email));
-			return PartialView("_Rooms", Manager.GetRooms(email, CurrentUser.Email));
+			OfficeSchedule = Manager.GetRooms(email, CurrentUser.Email);
+			return PartialView("_Rooms", OfficeSchedule);
 		}
 
 		public PartialViewResult GetBooking(string name, string email, int startAvailableTime, int endAvailableTime)
 		{
-			return PartialView("_Booking", Manager.GetBooking(name, email, startAvailableTime, endAvailableTime));
+			return PartialView("_Booking", Manager.GetBooking(name, email, startAvailableTime, endAvailableTime, OfficeSchedule));
 		}
 
 		public string BookNow(string email, string subject, int start, int end)
