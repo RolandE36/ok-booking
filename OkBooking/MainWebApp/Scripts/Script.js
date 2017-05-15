@@ -177,6 +177,13 @@ function BookNow(email, name) {
 	});
 }
 
+// When session is expired, user redirects to Login Page
+var sessionExpirationTimeout = null;
+$('*').bind('click', function () {
+	if (sessionExpirationTimeout != null) clearTimeout(sessionExpirationTimeout);
+	sessionExpirationTimeout = setTimeout(LogOut, 1000 * 60 * 15);
+});
+
 // Email and password validation
 function Authorization() {
 	if (animating) return;
