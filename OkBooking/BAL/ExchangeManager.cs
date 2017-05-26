@@ -84,17 +84,17 @@ namespace BAL {
 		/// <param name="roomEmail">Office email</param>
 		/// <param name="userEmail">Current user email</param>
 		/// <returns></returns>
-		public List<RoomDTO> GetRooms(string roomEmail, string userEmail) {
+		public List<RoomDTO> GetRooms(string roomEmail, string userEmail, DateTime date) {
 
 			var emailAddress = new EmailAddress(roomEmail);
 			var roomsList = service.GetRooms(emailAddress);
 
 			List<RoomDTO> rooms = new List<RoomDTO>();
 			// get schedule for each room in the office
-			var schedule = GetRoomsSchedule(roomsList);
+			var schedule = GetRoomsSchedule(roomsList, date);
 			var user = GetUser(userEmail); // current app user
 
-			DateTime serverTimeNow = DateTime.Now;
+			DateTime serverTimeNow = date;
 			TimeSpan timeSpan;
 
 			// go through all meeting rooms
@@ -146,13 +146,13 @@ namespace BAL {
 					while (timePointer < TOTAL_MINUTES && reservedTime[timePointer] == false) timePointer++;
 					var endAvailableTime = timePointer - 1; // 00:00 -> 23:59 We can't show 00:00 on UI. 
 
-					var message = startAvailableTime == timeNow ? "now" : GetClientTimeMessage(startAvailableTime);
+					var message = startAvailableTime == timeNow ? "now" : GetClientTimeMessage(startAvailableTime, date);
 					message += " - ";
-					message += GetClientTimeMessage(endAvailableTime);
+					message += GetClientTimeMessage(endAvailableTime, date);
 
 					currentRoom.AvalaibleTime.Add(new RoomAvalaibleTimeDTO() {
-						StartTime = (int) ToClientTime(startAvailableTime).TotalMinutes,
-						EndTime = (int) ToClientTime(endAvailableTime).TotalMinutes,
+						StartTime = (int) ToClientTime(startAvailableTime, date).TotalMinutes,
+						EndTime = (int) ToClientTime(endAvailableTime, date).TotalMinutes,
 						Message = message
 					});
 
@@ -220,12 +220,12 @@ namespace BAL {
 		/// </summary>
 		/// <param name="rooms"></param>
 		/// <returns></returns>
-		private GetUserAvailabilityResults GetRoomsSchedule(Collection<EmailAddress> rooms) {
+		private GetUserAvailabilityResults GetRoomsSchedule(Collection<EmailAddress> rooms, DateTime date) {
 			List<AttendeeInfo> attendees = new List<AttendeeInfo>();
 			AvailabilityOptions meetingOptions = new AvailabilityOptions();
 			meetingOptions.MeetingDuration = 30;
 			meetingOptions.MaximumNonWorkHoursSuggestionsPerDay = 0;
-			meetingOptions.CurrentMeetingTime = DateTime.Now;
+			meetingOptions.CurrentMeetingTime = date;
 
 			foreach (EmailAddress room in rooms) {
 				attendees.Add(new AttendeeInfo() {
@@ -236,7 +236,7 @@ namespace BAL {
 
 			return service.GetUserAvailability(
 										attendees,
-										new TimeWindow(DateTime.Now, DateTime.Now.AddDays(1)),
+										new TimeWindow(date, date.AddDays(1)),
 											AvailabilityData.FreeBusyAndSuggestions, // TODO: maybe Suggestions not required
 										meetingOptions);
 		}
@@ -323,18 +323,19 @@ namespace BAL {
 			return DateTime.Now.Date.AddMinutes(minutes + DateTimeOffset.Now.Offset.TotalMinutes + UserTimeZoneOffset);
 		}
 
-		private TimeSpan ToClientTime(TimeSpan date) {
+		private TimeSpan ToClientTime(TimeSpan span, DateTime date) {
+			DateTimeOffset dtoff = new DateTimeOffset(date);
 			var userOffset = new TimeSpan(0, - UserTimeZoneOffset, 0);
-			return date - DateTimeOffset.Now.Offset + userOffset;
+			return span - dtoff.Offset + userOffset;
 		}
 
-		private TimeSpan ToClientTime(int minutes) {
-			return ToClientTime(new TimeSpan(minutes / 60, minutes % 60, 0));
+		private TimeSpan ToClientTime(int minutes, DateTime date) {
+			return ToClientTime(new TimeSpan(minutes / 60, minutes % 60, 0), date);
 		}
 
-		private string GetClientTimeMessage(int minutes) {
+		private string GetClientTimeMessage(int minutes, DateTime date) {
 			var timeSpan = new TimeSpan(minutes/60, minutes%60, 0);
-			timeSpan = ToClientTime(timeSpan);
+			timeSpan = ToClientTime(timeSpan, date);
 			return timeSpan.ToString(@"hh\:mm");
 		}
 

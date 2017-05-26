@@ -81,7 +81,7 @@ namespace MainWebApp.Controllers {
 		public PartialViewResult GetRooms(string email)
 		{
 			Response.Cookies.Add(new HttpCookie("LastSelectedOffice", email));
-			OfficeSchedule = Manager.GetRooms(email, CurrentUser.Email);
+			OfficeSchedule = Manager.GetRooms(email, CurrentUser.Email, DateTime.Now);
 			return PartialView("_Rooms", OfficeSchedule);
 		}
 
